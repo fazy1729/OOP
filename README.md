@@ -1,7 +1,7 @@
 # Titlu proiect
 Intrusion
 ## Descriere proiect
-Joc de rezolvat puzzle-uri criptografice
+Solving cryptographic puzzles
 
 ## Milestone #0
 
