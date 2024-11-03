@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.26)
 
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing executable name in this file
 # for now, the project name is used as the executable name
+
 project(oop)
 # set(CMAKE_PROJECT_VERSION_MAJOR 0)
 # set(CMAKE_PROJECT_VERSION_MINOR 0)
@@ -83,7 +84,7 @@ install(TARGETS ${PROJECT_NAME} DESTINATION ${DESTINATION_DIR})
 if(APPLE)
     install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
 endif()
-
+configure_file(${CMAKE_SOURCE_DIR}/cmake-build-debug/tastatura.txt ${CMAKE_BINARY_DIR}/tastatura.txt COPYONLY)
 include(cmake/CopyHelper.cmake)
 copy_files(FILES cmake-build-debug/tastatura.txt)
 # copy_files(FILES tastatura.txt config.json DIRECTORY images sounds)
