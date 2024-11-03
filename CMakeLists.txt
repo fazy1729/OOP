@@ -9,19 +9,12 @@ project(oop)
 # set(CMAKE_PROJECT_VERSION_PATCH 1)
 
 set(OPENSSL_ROOT_DIR "C:/Users/florin/vcpkg/installed/x64-windows")
-set(OPENSSL_INCLUDE_DIR "${OPENSSL_ROOT_DIR}/include")
-set(OPENSSL_CRYPTO_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libcrypto.a")
-set(OPENSSL_SSL_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libssl.a")
-
+set(OPENSSL_USE_STATIC_LIBS TRUE)
 find_package(OpenSSL REQUIRED)
 
-# Check if OpenSSL was found
 if(NOT OpenSSL_FOUND)
     message(FATAL_ERROR "OpenSSL not found. Please set OPENSSL_ROOT_DIR correctly.")
 endif()
-
-set(OPENSSL_USE_STATIC_LIBS TRUE)
-find_package(OpenSSL REQUIRED)
 
 include_directories(${OPENSSL_INCLUDE_DIR})
 
