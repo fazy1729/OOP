@@ -14,7 +14,7 @@ Level:: Level(int currentLevel) {
     }
 }
 
-Level::Level(const Level &level) {
+Level::Level(const Level &level) : Terminal(level) {
     this->currentlevel = level.currentlevel;
     this->objective = level.objective;
     this->target = level.target;
