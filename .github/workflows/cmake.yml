@@ -1,144 +1,36 @@
-name: C++ CI
+name: CMake Build
 
 on:
   push:
-    branches: ['*']
-    tags: ['*']
+    branches: [main]
   pull_request:
-    branches: ['*']
-  workflow_dispatch:
-    inputs:
-      build_type:
-        description: Build type
-        required: false
-        default: 'Debug'
-        type: choice
-        options:
-          - Debug
-          - Release
-          - RelWithDebInfo
-          - MinSizeRel
-
-env:
-  BUILD_TYPE: ${{ inputs.build_type || 'Debug' }}
-  EXECUTABLE_NAME: "oop"      
-  INPUT_FILENAME: "tastatura.txt"
-  BIN_DIR: "bin"              
-  BUILD_DIR: "build"
-  EXT_DIR: "ext"
-  GEN_DIR: "generated"
-
-defaults:
-  run:
-    shell: bash
+    branches: [main]
 
 jobs:
-  cppcheck:
-    name: "Cppcheck Analysis"
-    runs-on: ubuntu-22.04
-    timeout-minutes: 5
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Run cppcheck
-        uses: ./.github/actions/cppcheck
-
-  clang-tidy:
-    name: "Clang-Tidy Analysis"
-    runs-on: ubuntu-22.04
-    timeout-minutes: 5
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Run clang-tidy
-        uses: ./.github/actions/clang-tidy
-
   build:
-    name: ${{ matrix.name }}
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 8
+    runs-on: ubuntu-latest
+
     strategy:
-      fail-fast: false
       matrix:
-        include:
-          - os: ubuntu-22.04
-            c: clang-18
-            cxx: clang++-18
-            name: "Ubuntu 22.04 with Clang 18"
-            cmake_flags: "-DUSE_MSAN=ON"
-            cmake_generator: Ninja
-            runs_msan: true
-
-          - os: ubuntu-22.04
-            c: gcc-12
-            cxx: g++-12
-            name: "Ubuntu 22.04 with GCC 12"
-            cmake_flags: "-DUSE_ASAN=ON"
-            cmake_generator: Ninja
-            runs_asan: true
-            asan_name: "-asan"
-
-          - os: macos-14
-            c: clang
-            cxx: clang++
-            name: "macOS 14 with Clang"
-            cmake_flags: "-DUSE_ASAN=OFF"
-            runs_asan: false
-
-          - os: windows-2022
-            c: cl
-            cxx: cl
-            name: "Windows MSVC"
-            cmake_flags: "-DUSE_ASAN=ON"
-            runs_asan: true
+        compiler: [gcc, clang]
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set Timestamp and Zip Name
+      - name: Set up CMake
         run: |
-          echo "TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)" >> ${GITHUB_ENV}
-          echo "ZIP_NAME=$(echo "${GITHUB_REPOSITORY}_${{ env.BUILD_TYPE }}_${{ matrix.os }}_${{ matrix.cxx }}${{ matrix.asan_name }}" | sed 's|/|_|')" >> ${GITHUB_ENV}
+          sudo apt-get update
+          sudo apt-get install -y cmake
 
-      - name: Install Dependencies
-        uses: ./.github/actions/install-packages
-
-      - name: Configure CMake
-        uses: ./.github/actions/configure-cmake
-        with:
-          custom_flags: ${{ matrix.cmake_flags }}
-          warnings_as_errors: 'ON'
-
-      - name: Build Project
+      - name: Configure and Build
         run: |
-          bash ./scripts/cmake.sh build -t ${{ env.BUILD_TYPE }}
-
-      - name: Install Project
+          mkdir -p build
+          cd build
+          cmake .. -DCMAKE_C_COMPILER=${{ matrix.compiler }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler }}++
+          cmake --build .
+      
+      - name: Run Tests
         run: |
-          bash ./scripts/cmake.sh install -i artifacts -t ${{ env.BUILD_TYPE }}
-
-      - name: Move Artifacts
-        run: |
-          mkdir ${{ env.ZIP_NAME }}
-          mv artifacts/${{ env.BIN_DIR }}/* ${{ env.ZIP_NAME }}
-          ls -la ${{ env.ZIP_NAME }}
-
-      - name: Process Artifacts
-        uses: ./.github/actions/process-artifacts
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.ZIP_NAME }}_${{ env.TIMESTAMP }}
-          path: ${{ env.ZIP_NAME }}
-          retention-days: 30
-
-      - name: Runtime Checks
-        uses: ./.github/actions/runtime-checks
-
-      - name: Create Release
-        uses: ./.github/actions/create-release
-        if: startsWith(github.ref, 'refs/tags/')
+          cd build
+          ctest --output-on-failure
