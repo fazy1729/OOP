@@ -1,6 +1,4 @@
-#include "GameEngine.h"
-
-
+#include "generated/include/GameEngine.h"
 using namespace std;
 
 int main() {
