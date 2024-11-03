@@ -47,7 +47,19 @@ include(cmake/Options.cmake)
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${PROJECT_NAME}
     main.cpp
-    generated/src/Helper.cpp
+        generated/include/Interface.h
+        generated/src/Interface.cpp
+        generated/include/EVERYTHING.h
+        generated/include/Level.h
+        generated/src/Level.cpp
+        generated/include/Terminal.h
+        generated/src/Terminal.cpp
+        generated/src/Hacker.cpp
+        generated/include/Hacker.h
+        generated/include/CryptoHacker.h
+        generated/src/CryptoHacker.cpp
+        generated/include/GameEngine.h
+        generated/src/GameEngine.cpp
 )
 
 include(cmake/CompilerFlags.cmake)
