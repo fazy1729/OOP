@@ -13,7 +13,7 @@ find_package(OpenSSL REQUIRED)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-
+configure_file(${CMAKE_BINARY_DIR}/tastatura.txt ${CMAKE_BINARY_DIR}/tastatura.txt COPYONLY)
 include(cmake/Options.cmake)
 
 ###############################################################################
