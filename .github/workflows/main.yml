@@ -1,62 +1,23 @@
-name: CI
+name: Static Analysis
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build:
+  static-analysis:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        compiler: [gcc-12, clang-14] 
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Dependencies
-        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build
+      - name: Run Cppcheck
 
-      - name: Install Compiler
-        run: |
-          if [[ "${{ matrix.compiler }}" == "gcc-12" ]]; then
-            sudo apt-get install -y g++-12
-          elif [[ "${{ matrix.compiler }}" == "clang-14" ]]; then
-            sudo apt-get install -y clang-14
-          fi
+        uses: ./.github/actions/cppcheck
 
-      - name: Configure CMake
-        run: |
-          mkdir build
-          cd build
-          cmake .. \
-            -DCMAKE_C_COMPILER=${{ matrix.compiler }} \
-            -DCMAKE_CXX_COMPILER=${{ matrix.compiler }}++ \
-            -G Ninja -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-
-      - name: Build Project
-        run: |
-          cd build
-          cmake --build .
-
-      - name: Run Tests
-        run: |
-          cd build
-          ctest --output-on-failure
-
-      - name: Run Cppcheck (Static Analysis)
-        run: |
-          sudo apt-get install -y cppcheck
-          cppcheck --enable=all --inconclusive --std=c++17 --project=build/compile_commands.json .
-
-      - name: Run Clang-Tidy (Code Linting)
-        run: |
-          sudo apt-get install -y clang-tidy
-          clang-tidy **/*.cpp -p build --warnings-as-errors=* --quiet
+      - name: Run Clang-Tidy
+      
+        uses: ./.github/actions/clang-tidy
