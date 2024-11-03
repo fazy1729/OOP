@@ -9,7 +9,14 @@ project(oop)
 # set(CMAKE_PROJECT_VERSION_PATCH 1)
 
 set(OPENSSL_ROOT_DIR "C:/Users/florin/vcpkg/installed/x64-windows")
+set(OPENSSL_USE_STATIC_LIBS TRUE)
 find_package(OpenSSL REQUIRED)
+
+if(NOT OpenSSL_FOUND)
+    message(FATAL_ERROR "OpenSSL not found. Please set OPENSSL_ROOT_DIR correctly.")
+endif()
+
+include_directories(${OPENSSL_INCLUDE_DIR})
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
