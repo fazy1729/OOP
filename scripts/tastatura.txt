@@ -1,4 +1,11 @@
-florin
+root
+ls
+pwd
 --help
 1
+1
+test
 --caesar
+--caesar caesar.txt
+--sha256
+--sha256 caesar.txt
