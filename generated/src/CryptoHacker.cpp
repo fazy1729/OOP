@@ -3,6 +3,7 @@ using namespace std;
 
 
 void CryptoHacker::CaesarDecypher(string &text) {
+    ///DECRIPTARE COD CEZAR, DACA AVEM O LITERA NE DUCEM CU 3 IN SPATE (CEZAR CLASIC), DACA SUNEM MAI PUTIN DE "C" NE INTOARCEM DE LA Z
     cout<<"Your message is: ";
     for(auto &s : text) {
         if(s >= 'a' && s <= 'z') {
@@ -17,6 +18,7 @@ void CryptoHacker::CaesarDecypher(string &text) {
 }
 
 string CryptoHacker:: SHA256(const string &fileName, const map<string, vector<string>> &catFiles) {
+    ///HASH FOLOSIND OPENSSL
     auto it = catFiles.find(fileName);
     if (it == catFiles.end()) {
         cout << "File not found" << endl;
@@ -27,16 +29,18 @@ string CryptoHacker:: SHA256(const string &fileName, const map<string, vector<st
     for (const auto &line : it->second) {
         message += line;
     }
-
+    ///INITIALIZARE LUNGIME
     unsigned char hash[EVP_MAX_MD_SIZE];
     unsigned int hashLength;
 
+    ///INITIALIZARE OBIECT DE HASHING
     EVP_MD_CTX* context = EVP_MD_CTX_new();
     if (context == nullptr) {
         cerr << "Error creating hash context" << endl;
         return "";
     }
 
+    ///HASHING PROPRIU ZIS (ALGORIT DE SHA256 CLASIC FOLOSIT - AICI FACEM HASH LA MESAJ
     if (EVP_DigestInit_ex(context, EVP_sha256(), nullptr) != 1 ||
         EVP_DigestUpdate(context, message.c_str(), message.size()) != 1 ||
         EVP_DigestFinal_ex(context, hash, &hashLength) != 1) {

@@ -61,6 +61,7 @@ bool Hacker::checkPersonality(const string &personality) {
 string Hacker:: getCommands(const int i, const int j) const {return commands_list[i][j];}
 
 bool Hacker:: checkCommandExist(const string &command) {
+    ///VERIFICAM DACA EXISTA COMANDA
     for(auto & i : commands_list)
         for(const auto & j : i)
             if(command == j)
@@ -68,6 +69,7 @@ bool Hacker:: checkCommandExist(const string &command) {
     return false;
 }
 void Hacker:: help_commands(const int number) const {
+    ///AFISAM COMEZILE DE HELP
     if(number == 1)
         for(int i=0; i<3; i++)
             cout<<getCommands(0,i)<<endl;

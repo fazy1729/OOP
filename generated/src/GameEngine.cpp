@@ -17,6 +17,7 @@ GameEngine::GameEngine(const string& fileName) :
     }
 }
 void GameEngine::executeCdCommand() {
+    ///FACEM CD DIN LINUX - EFECTIV NE PLIMBAM PRIN HASHMAP
     string dir;
     getline(cin, dir);
     size_t poz = dir.find(' ');
@@ -32,6 +33,7 @@ void GameEngine::executeCdCommand() {
 
 }
 void GameEngine::executeCaesarCommand(ifstream &inputFile, bool readingFromFile) {
+    ///EXECUTAM ALGORITMUL CEZAR
     string file;
     if (readingFromFile == false)
         getline(cin,file);
@@ -54,6 +56,7 @@ void GameEngine::executeCaesarCommand(ifstream &inputFile, bool readingFromFile)
         cout<<"The correct format is: --caesar <file.txt>\n";
 }
 void GameEngine::executeSHA256Command(ifstream &file, bool readingFromFile) {
+    ///EXECUTAM ALGORITMUL DE HASHING
     string fileName;
     if(readingFromFile == false)
         getline(cin, fileName);
@@ -70,11 +73,13 @@ void GameEngine::executeSHA256Command(ifstream &file, bool readingFromFile) {
         cout<<"The correct format is: --sha256 <file.txt>\n";
 }
 void GameEngine::executeCATCommand() {
+    ///COMANDA CAT EFECTIV NE ARATA CE SE AFLA IN CHEIA MAPULUI
     string file;
     getline(cin,file);
     terminal.cat(file,level.getCatFiles());
 }
 void GameEngine::displayHelp(ifstream &fileName, const bool &fileRead) {
+    ///PREZENTARE DIVERSE FUNCTII CARE EXISTA PE BAZA CATEGORIEI DIN CARE FAC PARTE
     cout<<"HOW MIGHT I HELP YOU TODAY?"<<endl;
     cout<<"1. List of personalities: "<<endl;
     cout<<"2. List of commands: "<<endl;
@@ -116,6 +121,7 @@ void GameEngine::displayHelp(ifstream &fileName, const bool &fileRead) {
     }
 }
 void GameEngine::exec_commands(const string &input) {
+    ///IN FUNCTIE DE INPUT-UL UTILIZATORIULUI EXECUTAM COMANDA, DACA NU EXISTA ATUNCI NE VA AFISA UN MESAJ CORESPUNZATOR
     if(input == "ls")
         terminal.ls();
     else if(input == "pwd")
@@ -139,11 +145,13 @@ void GameEngine::exec_commands(const string &input) {
 }
 
 void GameEngine::display_prompt() {
+    ///NE ARATA PROMPTUL
     string playerName = interface.getPlayerName();
     terminal.displayPlayerName(playerName);
 }
 
 void GameEngine::readingCommandsFromFile() {
+    ///CITIRE DIN FISIER PENTRU SIMULARE
     string commandLine;
     while (getline(inputFile, commandLine)) {
         display_prompt();

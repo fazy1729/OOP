@@ -87,10 +87,10 @@ void Terminal::pwd() const {
     cout<<"Current directory: " << currentDirectory << "\n";
 }
 
-
-void Terminal::cat(const string &key, const map<string, vector<string>> &catFile) const {
-    size_t pos = key.find(' ');
+void Terminal::cat(const string &input, const map<string, vector<string>> &catFile) const {
+    size_t pos = input.find(' ');
     if(pos != string::npos) {
+        string key = input.substr(pos+1);
         if(key.size() >= 4 && key.substr(key.size() - 4) == ".txt") {
             auto ex = catFile.find(key);
             if(ex != catFile.end()) {
