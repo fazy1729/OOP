@@ -17,6 +17,7 @@ public:
     Hacker(const string &specialization,const string &skills);
     Hacker(const Hacker &other);
     Hacker& operator=(const Hacker &other);
+    friend ostream& operator<<(ostream &os, const Hacker &hacker);
     void printHackerPersonality() const;
     bool checkPersonality(const string &personality);
     string getCommands(const int i, const int j) const;

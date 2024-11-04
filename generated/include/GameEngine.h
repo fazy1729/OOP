@@ -21,7 +21,10 @@ public:
 
     explicit GameEngine(const string& fileName);
     GameEngine(const GameEngine &other);
+    GameEngine() = default;
     GameEngine& operator=(const GameEngine &other);
+    friend ostream& operator<<(ostream& os, const GameEngine& gameEngine);
+
     void executeCdCommand();
     void executeCaesarCommand(ifstream &inputFile, bool readingFromFile);
     void executeSHA256Command(ifstream &file, bool readingFromFile);
@@ -32,6 +35,7 @@ public:
     void display_prompt();
     void readingCommandsFromFile();
     void start();
+    ~GameEngine() = default;
 };
 
 #endif

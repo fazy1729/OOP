@@ -13,7 +13,6 @@ private:
 public:
     Interface() = default;
     Interface(const Interface& other);
-
     explicit Interface(const string& fileName);
     friend ostream& operator<<(ostream& os, const Interface& obj);
     Interface &operator=(const Interface &other);

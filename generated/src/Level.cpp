@@ -49,4 +49,9 @@ void Level:: getPassword(int currLevel)  {
     }
 }
 
+ostream &operator<<(ostream &os, const Level &level) {
+    os<<"Current level is: "<<level.currentlevel;
+    os<<"Target is: "<<level.target;
+    return os;
+}
 

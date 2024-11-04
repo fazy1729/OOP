@@ -11,6 +11,7 @@ public:
     Terminal();
     Terminal(const Terminal& other);
     Terminal &operator=(const Terminal &other);
+    friend ostream &operator<<(ostream &os, const Terminal &terminal);
     string getCurrentDirectory();
     void displayPlayerName(const string& playerName);
     static void list_commands_help();

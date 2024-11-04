@@ -106,3 +106,7 @@ void Terminal::cat(const string &key, const map<string, vector<string>> &catFile
         cout<<"The correct format is: cat <file.txt>\n";
 }
 
+ostream& operator<<(ostream &os, const Terminal &terminal) {
+    os<<"Current directory: "<<terminal.currentDirectory<<"\n";
+    return os;
+}

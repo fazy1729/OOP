@@ -79,3 +79,8 @@ void Hacker:: help_commands(const int number) const {
             cout<<getCommands(2,i)<<endl;
 }
 
+ostream &operator<<(ostream &os, const Hacker &hacker) {
+    os<<"Specialization: "<<hacker.specialization<<"\n";
+    os<<"Skills: "<<hacker.skills<<"\n";
+    return os;
+}

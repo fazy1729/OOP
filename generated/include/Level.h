@@ -9,7 +9,6 @@ using namespace std;
 class Level : public Terminal {
 private:
     int currentlevel;
-
     string objective;
     string target;
 
@@ -17,7 +16,9 @@ private:
 
 public:
     explicit Level(int currentLevel);
+    Level() = default;
     Level(const Level& level);
+    friend ostream& operator<<(ostream &os, const Level &level);
     Level& operator=(const Level& level);
     string getObjective() const;
     map<string, vector<string>> getCatFiles();

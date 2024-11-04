@@ -8,6 +8,7 @@ GameEngine::GameEngine(const string& fileName) :
       level(1),
       readingFromFile(true),
       run(true)
+
 {
     inputFile.open(fileName);
     if (!inputFile) {
@@ -206,4 +207,9 @@ GameEngine& GameEngine::operator=(const GameEngine &other) {
         }
     }
     return *this;
+}
+
+ostream &operator<<(ostream &os, const GameEngine &other) {
+    os<<"GAME ENGINE:"<<endl;
+    return os;
 }

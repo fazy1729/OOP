@@ -12,12 +12,6 @@ Interface::Interface(const string& fileName) {
 }
 
 Interface::Interface(const Interface& other) : name(other.name) {}
-
-ostream& operator<<(ostream& os, const Interface& obj) {
-    os << "Your name is: " << obj.name;
-    return os;
-}
-
 string Interface::getPlayerName() const {
     return name;
 }
@@ -31,4 +25,9 @@ Interface& Interface::operator=(const Interface& other) {
     }
     return *this;
 
+}
+
+ostream& operator<<(ostream& os, const Interface& obj) {
+    os << "Your name is: " << obj.name;
+    return os;
 }
