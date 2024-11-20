@@ -4,49 +4,27 @@ cmake_minimum_required(VERSION 3.26)
 # for now, the project name is used as the executable name
 
 project(oop)
-# set(CMAKE_PROJECT_VERSION_MAJOR 0)
-# set(CMAKE_PROJECT_VERSION_MINOR 0)
-# set(CMAKE_PROJECT_VERSION_PATCH 1)
-# Set the OpenSSL root directory (replace with your actual path)
-set(OPENSSL_ROOT_DIR "D:/vcpkg/installed/x64-windows")
-
-# Specify the OpenSSL include and library directories
-set(OPENSSL_INCLUDE_DIR "${OPENSSL_ROOT_DIR}/include")
-set(OPENSSL_LIBRARIES "${OPENSSL_ROOT_DIR}/lib")
-set(OPENSSL_ROOT_DIR "D:/vcpkg/installed/x64-windows")
-set(CMAKE_TOOLCHAIN_FILE "D:/vcpkg/scripts/buildsystems/vcpkg.cmake")
-set(OPENSSL_SSL_LIBRARY "D:/vcpkg/installed/x64-windows/lib/libssl.a")
-set(OPENSSL_CRYPTO_LIBRARY "D:/vcpkg/installed/x64-windows/lib/libcrypto.a")
-include_directories(D:/vcpkg/installed/x64-windows/include)
-
-
-
-# Find OpenSSL using CMake's FindPackage
-find_package(OpenSSL REQUIRED)
-
-# Alternatively, if FindOpenSSL doesn't work, you can manually set the include and library
-# directories like this:
-# include_directories(${OPENSSL_INCLUDE_DIR})
-# target_link_libraries(your_target_name ${OPENSSL_LIBRARIES})
-
-# If OpenSSL is found successfully, the following should work:
-if (OPENSSL_FOUND)
-    message(STATUS "Found OpenSSL: ${OPENSSL_VERSION}")
-else()
-    message(FATAL_ERROR "OpenSSL not found!")
-endif()
-
-# Your other CMake configurations go here
-
-
-
-
-
-
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Configurează toolchain-ul pentru vcpkg (util dacă rulezi pe Windows/CI)
+if(WIN32)
+    set(CMAKE_TOOLCHAIN_FILE "D:/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+endif()
+# Caută OpenSSL
+find_package(OpenSSL REQUIRED)
+
+# Debug: Afișare informații despre OpenSSL
+if (OPENSSL_FOUND)
+    message(STATUS "OpenSSL found!")
+    message(STATUS "OpenSSL Version: ${OPENSSL_VERSION}")
+    message(STATUS "OpenSSL Include Dir: ${OPENSSL_INCLUDE_DIR}")
+    message(STATUS "OpenSSL Libraries: ${OPENSSL_LIBRARIES}")
+else()
+    message(FATAL_ERROR "OpenSSL not found!")
+endif()
 
 
 include(cmake/Options.cmake)
@@ -90,7 +68,7 @@ add_executable(${PROJECT_NAME}
         generated/src/GameEngine.cpp
 )
 
-target_link_libraries(oop OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(${PROJECT_NAME} OpenSSL::SSL OpenSSL::Crypto)
 include(cmake/CompilerFlags.cmake)
 
 ###############################################################################
