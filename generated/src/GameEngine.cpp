@@ -142,8 +142,10 @@ void GameEngine::exec_commands(const string &input) {
         cout<<level.getObjective();
     else if(input =="--exit")
         run = false;
-    else
+    else {
         cout<<"Command not found... Type --help to see the list of commands..."<<endl;
+        run = false;
+    }
 }
 
 void GameEngine::display_prompt() {
