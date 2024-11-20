@@ -162,63 +162,8 @@ jobs:
             c: gcc
             cxx: g++
             name: "Windows 2022 MinGW GCC 13"
+            # cmake_flags:
             cmake_generator: Ninja
-            steps:
-              - name: Checkout repo
-                uses: actions/checkout@v4
-
-              - name: Set timestamp and zip name
-                run: |
-                  echo "TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)" >> ${GITHUB_ENV}
-                  echo "ZIP_NAME=$(echo "${GITHUB_REPOSITORY}_${{ env.BUILD_TYPE }}_${{ matrix.os }}_${{ matrix.cxx }}${{ matrix.asan_name }}" | sed 's|/|_|')" >> ${GITHUB_ENV}
-          
-              - name: Install packages
-                uses: ./.github/actions/install-packages
-
-              - name: Install vcpkg and OpenSSL
-                run: |
-                  # Instalează vcpkg
-                  git clone https://github.com/Microsoft/vcpkg.git
-                  ./vcpkg/bootstrap-vcpkg.sh
-                  
-                  # Instalează OpenSSL pentru MinGW
-                  ./vcpkg/vcpkg install openssl:x64-mingw-dynamic
-
-              - name: Set OpenSSL environment variables for CMake
-                run: |
-                  # Setăm variabilele de mediu pentru OpenSSL, folosind vcpkg
-                  echo "OPENSSL_ROOT_DIR=$(pwd)/vcpkg/installed/x64-mingw-dynamic" >> $GITHUB_ENV
-                  echo "OPENSSL_INCLUDE_DIR=$(pwd)/vcpkg/installed/x64-mingw-dynamic/include" >> $GITHUB_ENV
-                  echo "OPENSSL_CRYPTO_LIBRARY=$(pwd)/vcpkg/installed/x64-mingw-dynamic/lib/libcrypto.a" >> $GITHUB_ENV
-                  echo "OPENSSL_SSL_LIBRARY=$(pwd)/vcpkg/installed/x64-mingw-dynamic/lib/libssl.a" >> $GITHUB_ENV
-
-              - name: Configure CMake
-                uses: ./.github/actions/configure-cmake
-                with:
-                  custom_flags: ${{ matrix.cmake_flags }}  # Asigură-te că acesta este un string, nu un array
-                  warnings_as_errors: 'ON'
-          
-              - name: Build
-                run: |
-                  bash ./scripts/cmake.sh build -t ${{ env.BUILD_TYPE }}
-          
-              - name: Install
-                run: |
-                  bash ./scripts/cmake.sh install -i artifacts -t ${{ env.BUILD_TYPE }}
-
-              - name: Move artifacts
-                run: |
-                  mkdir ${{ env.ZIP_NAME }}
-                  mv artifacts/${{ env.BIN_DIR }}/* ${{ env.ZIP_NAME }}
-                  ls -la ${{ env.ZIP_NAME }}
-          
-              - name: Upload Artifacts
-                uses: actions/upload-artifact@v4
-                with:
-                  name: ${{ env.ZIP_NAME }}_${{ env.TIMESTAMP }}
-                  path: ${{ env.ZIP_NAME }}
-                  retention-days: 30
-
 
     steps:
       - name: Checkout repo
