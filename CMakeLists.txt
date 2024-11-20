@@ -16,6 +16,20 @@ endif()
 # Caută OpenSSL
 find_package(OpenSSL REQUIRED)
 
+# Setează explicit directoarele OpenSSL pentru Windows/MinGW
+if (WIN32 AND MINGW)
+    set(OPENSSL_ROOT_DIR "D:/vcpkg/installed/x64-windows") # Schimbă dacă este cazul
+    set(OPENSSL_INCLUDE_DIR "${OPENSSL_ROOT_DIR}/include")
+    set(OPENSSL_CRYPTO_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libcrypto.a")
+    set(OPENSSL_SSL_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libssl.a")
+
+    message(STATUS "Setting OpenSSL paths manually for Windows/MinGW:")
+    message(STATUS "OPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}")
+    message(STATUS "OPENSSL_CRYPTO_LIBRARY=${OPENSSL_CRYPTO_LIBRARY}")
+    message(STATUS "OPENSSL_SSL_LIBRARY=${OPENSSL_SSL_LIBRARY}")
+endif()
+
+
 # Debug: Afișare informații despre OpenSSL
 if (OPENSSL_FOUND)
     message(STATUS "OpenSSL found!")
