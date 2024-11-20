@@ -10,7 +10,7 @@ GameEngine::GameEngine(const string& fileName) :
     run(true)
 {
     ifstream tempInputFile;
-    tempInputFile.open(fileName);
+    tempInputFile.open("C:\\Users\\florin\\Desktop\\Facultate\\An2\\OOP\\scripts\\tastatura.txt");
     if (!tempInputFile) {
         cerr << "Unable to open file " << fileName << endl;
         readingFromFile = false;
@@ -205,7 +205,7 @@ GameEngine& GameEngine::operator=(const GameEngine &other) {
             inputFile.close();
         }
         if (readingFromFile && other.readingFromFile) {
-            inputFile.open("tastatura.txt");
+            inputFile.open("scripts/tastatura.txt");
             if (!inputFile) {
                 cerr << "Unable to open file tastatura.txt" << endl;
                 readingFromFile = false;
