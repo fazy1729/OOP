@@ -13,17 +13,26 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 if(WIN32)
     set(CMAKE_TOOLCHAIN_FILE "D:/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 endif()
+# Setează manual calea OpenSSL dacă nu este găsită automat
+set(OPENSSL_ROOT_DIR "D:/vcpkg/installed/x64-windows")
+set(OPENSSL_INCLUDE_DIR "${OPENSSL_ROOT_DIR}/include")
+set(OPENSSL_SSL_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libssl.a")
+set(OPENSSL_CRYPTO_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libcrypto.a")
+
+# Verifică fișierele
+if (NOT EXISTS "${OPENSSL_INCLUDE_DIR}/openssl")
+    message(FATAL_ERROR "OpenSSL not found at ${OPENSSL_ROOT_DIR}")
+endif()
 
 find_package(OpenSSL REQUIRED)
 
-# Setăm manual locațiile pentru OpenSSL pentru MinGW, doar dacă nu a fost găsit OpenSSL
 if (NOT OPENSSL_FOUND AND WIN32 AND MINGW)
-    set(OPENSSL_ROOT_DIR "D:/vcpkg/installed/x64-windows")  # Actualizează această cale cu locația corectă
+    set(OPENSSL_ROOT_DIR "D:/vcpkg/installed/x64-windows")  # Asigură-te că e corectă calea ta!
     set(OPENSSL_INCLUDE_DIR "${OPENSSL_ROOT_DIR}/include")
     set(OPENSSL_CRYPTO_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libcrypto.a")
     set(OPENSSL_SSL_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libssl.a")
 
-    # Verificăm dacă fișierele OpenSSL există
+    # Verifică dacă fișierele există
     if (EXISTS "${OPENSSL_INCLUDE_DIR}" AND EXISTS "${OPENSSL_SSL_LIBRARY}" AND EXISTS "${OPENSSL_CRYPTO_LIBRARY}")
         message(STATUS "OpenSSL paths set manually for MinGW:")
         message(STATUS "OPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}")
