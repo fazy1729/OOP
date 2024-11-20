@@ -13,16 +13,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 if(WIN32)
     set(CMAKE_TOOLCHAIN_FILE "D:/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 endif()
-# Setează manual calea OpenSSL dacă nu este găsită automat
-set(OPENSSL_ROOT_DIR "D:/vcpkg/installed/x64-windows")
-set(OPENSSL_INCLUDE_DIR "${OPENSSL_ROOT_DIR}/include")
-set(OPENSSL_SSL_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libssl.a")
-set(OPENSSL_CRYPTO_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libcrypto.a")
-
-# Verifică fișierele
-if (NOT EXISTS "${OPENSSL_INCLUDE_DIR}/openssl")
-    message(FATAL_ERROR "OpenSSL not found at ${OPENSSL_ROOT_DIR}")
-endif()
 
 find_package(OpenSSL REQUIRED)
 
