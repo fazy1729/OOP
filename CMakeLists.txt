@@ -13,19 +13,19 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 if(WIN32)
     set(CMAKE_TOOLCHAIN_FILE "D:/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 endif()
-# Caută OpenSSL
+
 find_package(OpenSSL REQUIRED)
 
-# Setează explicit directoarele OpenSSL pentru Windows/MinGW
-# Configurează manual OpenSSL pentru Windows/MinGW dacă nu este găsit automat
+# Setăm manual locațiile pentru OpenSSL pentru MinGW, doar dacă nu a fost găsit OpenSSL
 if (NOT OPENSSL_FOUND AND WIN32 AND MINGW)
-    set(OPENSSL_ROOT_DIR "D:/vcpkg/installed/x64-windows") # Modifică cu locația corectă
+    set(OPENSSL_ROOT_DIR "D:/vcpkg/installed/x64-windows")  # Actualizează această cale cu locația corectă
     set(OPENSSL_INCLUDE_DIR "${OPENSSL_ROOT_DIR}/include")
     set(OPENSSL_CRYPTO_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libcrypto.a")
     set(OPENSSL_SSL_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libssl.a")
 
+    # Verificăm dacă fișierele OpenSSL există
     if (EXISTS "${OPENSSL_INCLUDE_DIR}" AND EXISTS "${OPENSSL_SSL_LIBRARY}" AND EXISTS "${OPENSSL_CRYPTO_LIBRARY}")
-        message(STATUS "Manual configuration of OpenSSL paths for MinGW:")
+        message(STATUS "OpenSSL paths set manually for MinGW:")
         message(STATUS "OPENSSL_INCLUDE_DIR=${OPENSSL_INCLUDE_DIR}")
         message(STATUS "OPENSSL_SSL_LIBRARY=${OPENSSL_SSL_LIBRARY}")
         message(STATUS "OPENSSL_CRYPTO_LIBRARY=${OPENSSL_CRYPTO_LIBRARY}")
@@ -34,8 +34,6 @@ if (NOT OPENSSL_FOUND AND WIN32 AND MINGW)
         message(FATAL_ERROR "OpenSSL libraries or include directories are missing!")
     endif()
 endif()
-
-
 
 # Debug: Afișare informații despre OpenSSL
 if (OPENSSL_FOUND)
@@ -47,38 +45,19 @@ else()
     message(FATAL_ERROR "OpenSSL not found!")
 endif()
 
+# Setăm manual locațiile pentru OpenSSL dacă nu au fost setate automat
+set(OPENSSL_ROOT_DIR $ENV{OPENSSL_ROOT_DIR})
+set(OPENSSL_INCLUDE_DIR $ENV{OPENSSL_INCLUDE_DIR})
+set(OPENSSL_LIBRARIES $ENV{OPENSSL_LIBRARIES})
+set(OPENSSL_CRYPTO_LIBRARY $ENV{OPENSSL_CRYPTO_LIBRARY})
+set(OPENSSL_SSL_LIBRARY $ENV{OPENSSL_SSL_LIBRARY})
 
 include(cmake/Options.cmake)
 
-###############################################################################
-
-# external dependencies with FetchContent
-# include(FetchContent)
-#
-# set(FETCHCONTENT_QUIET OFF)
-# set(FETCHCONTENT_UPDATES_DISCONNECTED ON)
-#
-# NOTE: Also update env vars used for caching in
-#         - .github/actions/configure-cmake/action.yml
-#         - .github/workflows/cmake.yml
-# FetchContent_Declare(
-#         SomeLib
-#         GIT_REPOSITORY https://github.com/<SomeUser>/<SomeLib>.git
-#         GIT_TAG        <some_git_hash> # <which tag/branch @ <some_date>>
-#         GIT_SHALLOW    1  # works only with branches or tags, not with arbitrary commit hashes
-# )
-#
-# FetchContent_MakeAvailable(SomeLib)
-
-###############################################################################
-
-# external dependencies with find_package
-
-# find_package(Threads REQUIRED)
 
 
 
-# NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
+
 add_executable(${PROJECT_NAME}
         main.cpp
         generated/src/Interface.cpp
