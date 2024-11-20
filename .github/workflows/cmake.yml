@@ -159,8 +159,8 @@ jobs:
             runs_asan: true
 
           - os: windows-2022
-            c: gcc
-            cxx: g++
+            c: gcc-13
+            cxx: g++-13
             name: "Windows 2022 MinGW GCC 13"
             # cmake_flags:
             cmake_generator: Ninja
