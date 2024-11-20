@@ -183,11 +183,27 @@ jobs:
       - name: Install packages
         uses: ./.github/actions/install-packages
 
+      - name: Install OpenSSL
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libssl-dev
+
+      - name: Set up vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git
+          ./vcpkg/bootstrap-vcpkg.sh
+          ./vcpkg/vcpkg install openssl
+        env:
+          VCPKG_DEFAULT_TRIPLET: x64-linux
+
+      
       - name: Configure CMake
         uses: ./.github/actions/configure-cmake
         with:
-          custom_flags: ${{ matrix.cmake_flags }}
+          custom_flags: >
+            ${{ matrix.cmake_flags }}
+            -DCMAKE_TOOLCHAIN_FILE=${GITHUB_WORKSPACE}/vcpkg/scripts/buildsystems/vcpkg.cmake
           warnings_as_errors: 'ON'
+
 
       - name: Build
         run: |
