@@ -10,7 +10,7 @@ GameEngine::GameEngine(const string& fileName) :
     run(true)
 {
     ifstream tempInputFile;
-    tempInputFile.open("C:\\Users\\florin\\Desktop\\Facultate\\An2\\OOP\\scripts\\tastatura.txt");
+    ///tempInputFile.open("C:\\Users\\florin\\Desktop\\Facultate\\An2\\OOP\\scripts\\tastatura.txt");
     if (!tempInputFile) {
         cerr << "Unable to open file " << fileName << endl;
         readingFromFile = false;
