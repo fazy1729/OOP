@@ -9,3 +9,4 @@ test
 --caesar caesar.txt
 --sha256
 --sha256 caesar.txt
+test

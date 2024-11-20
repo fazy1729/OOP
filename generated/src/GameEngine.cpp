@@ -10,7 +10,7 @@ GameEngine::GameEngine(const string& fileName) :
     run(true)
 {
     ifstream tempInputFile;
-    ///tempInputFile.open("C:\\Users\\florin\\Desktop\\Facultate\\An2\\OOP\\scripts\\tastatura.txt");
+    tempInputFile.open("C:\\Users\\florin\\Desktop\\Facultate\\An2\\OOP\\tastatura.txt");
     if (!tempInputFile) {
         cerr << "Unable to open file " << fileName << endl;
         readingFromFile = false;
@@ -144,7 +144,6 @@ void GameEngine::exec_commands(const string &input) {
         run = false;
     else {
         cout<<"Command not found... Type --help to see the list of commands..."<<endl;
-        run = false;
     }
 }
 
