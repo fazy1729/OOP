@@ -23,7 +23,6 @@ public:
     GameEngine(const GameEngine &other);
     GameEngine() = default;
     GameEngine& operator=(const GameEngine &other);
-    friend ostream& operator<<(ostream& os, const GameEngine& gameEngine);
 
     void executeCdCommand();
     void executeCaesarCommand(ifstream &inputFile, bool readingFromFile);

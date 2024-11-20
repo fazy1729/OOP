@@ -11,7 +11,6 @@ public:
     CryptoHacker() = default;
     static void CaesarDecypher(string &text);
     static string SHA256(const string &fileName, const map<string, vector<string>> &catFiles);
-    friend ostream &operator<<(ostream &os, const CryptoHacker &hacker);
     CryptoHacker(const CryptoHacker &other) = default;
     CryptoHacker& operator=(const CryptoHacker &other) = default;
     ~CryptoHacker() = default;

@@ -59,10 +59,7 @@ string CryptoHacker:: SHA256(const string &fileName, const map<string, vector<st
     return hexa.str();
 }
 
-ostream &operator<<(ostream &os, const CryptoHacker& obj) {
-    os<<"This hacker can decrypt messages and use advanced hashing methods";
-    return os;
-}
+
 
 
 

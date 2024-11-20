@@ -216,8 +216,3 @@ GameEngine& GameEngine::operator=(const GameEngine &other) {
     }
     return *this;
 }
-
-ostream &operator<<(ostream &os, const GameEngine &other) {
-    os<<"GAME ENGINE:"<<endl;
-    return os;
-}

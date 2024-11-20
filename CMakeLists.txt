@@ -7,20 +7,47 @@ project(oop)
 # set(CMAKE_PROJECT_VERSION_MAJOR 0)
 # set(CMAKE_PROJECT_VERSION_MINOR 0)
 # set(CMAKE_PROJECT_VERSION_PATCH 1)
+# Set the OpenSSL root directory (replace with your actual path)
+set(OPENSSL_ROOT_DIR "D:/vcpkg/installed/x64-windows")
 
-set(OPENSSL_ROOT_DIR "C:/Users/florin/vcpkg/installed/x64-windows")
-set(OPENSSL_USE_STATIC_LIBS TRUE)
+# Specify the OpenSSL include and library directories
+set(OPENSSL_INCLUDE_DIR "${OPENSSL_ROOT_DIR}/include")
+set(OPENSSL_LIBRARIES "${OPENSSL_ROOT_DIR}/lib")
+set(OPENSSL_ROOT_DIR "D:/vcpkg/installed/x64-windows")
+set(CMAKE_TOOLCHAIN_FILE "D:/vcpkg/scripts/buildsystems/vcpkg.cmake")
+set(OPENSSL_SSL_LIBRARY "D:/vcpkg/installed/x64-windows/lib/libssl.a")
+set(OPENSSL_CRYPTO_LIBRARY "D:/vcpkg/installed/x64-windows/lib/libcrypto.a")
+include_directories(D:/vcpkg/installed/x64-windows/include)
+
+
+
+# Find OpenSSL using CMake's FindPackage
 find_package(OpenSSL REQUIRED)
 
-if(NOT OpenSSL_FOUND)
-    message(FATAL_ERROR "OpenSSL not found. Please set OPENSSL_ROOT_DIR correctly.")
+# Alternatively, if FindOpenSSL doesn't work, you can manually set the include and library
+# directories like this:
+# include_directories(${OPENSSL_INCLUDE_DIR})
+# target_link_libraries(your_target_name ${OPENSSL_LIBRARIES})
+
+# If OpenSSL is found successfully, the following should work:
+if (OPENSSL_FOUND)
+    message(STATUS "Found OpenSSL: ${OPENSSL_VERSION}")
+else()
+    message(FATAL_ERROR "OpenSSL not found!")
 endif()
 
-include_directories(${OPENSSL_INCLUDE_DIR})
+# Your other CMake configurations go here
+
+
+
+
+
+
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
 
 include(cmake/Options.cmake)
 
@@ -50,31 +77,24 @@ include(cmake/Options.cmake)
 
 # find_package(Threads REQUIRED)
 
-###############################################################################
+
 
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${PROJECT_NAME}
-    main.cpp
-        generated/include/Interface.h
+        main.cpp
         generated/src/Interface.cpp
-        generated/include/EVERYTHING.h
-        generated/include/Level.h
         generated/src/Level.cpp
-        generated/include/Terminal.h
         generated/src/Terminal.cpp
         generated/src/Hacker.cpp
-        generated/include/Hacker.h
-        generated/include/CryptoHacker.h
         generated/src/CryptoHacker.cpp
-        generated/include/GameEngine.h
         generated/src/GameEngine.cpp
 )
 
+target_link_libraries(oop OpenSSL::SSL OpenSSL::Crypto)
 include(cmake/CompilerFlags.cmake)
 
 ###############################################################################
-target_link_libraries(${PROJECT_NAME} OpenSSL::SSL OpenSSL::Crypto)
-target_include_directories(${PROJECT_NAME} PRIVATE ${OPENSSL_INCLUDE_DIR})
+
 
 # use SYSTEM so cppcheck and clang-tidy do not report warnings from these directories
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE generated/include)
