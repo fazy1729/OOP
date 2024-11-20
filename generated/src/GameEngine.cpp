@@ -2,18 +2,20 @@
 using namespace std;
 
 GameEngine::GameEngine(const string& fileName) :
-      root("CryptoHacker", "ROOT"),
-      cryptohacker("HELP"),
-      interface(fileName),
-      level(1),
-      readingFromFile(true),
-      run(true)
-
+    root("CryptoHacker", "ROOT"),
+    cryptohacker("HELP"),
+    interface(fileName),
+    level(1),
+    readingFromFile(true),
+    run(true)
 {
-    inputFile.open(fileName);
-    if (!inputFile) {
+    ifstream tempInputFile;
+    tempInputFile.open(fileName);
+    if (!tempInputFile) {
         cerr << "Unable to open file " << fileName << endl;
         readingFromFile = false;
+    } else {
+        inputFile = std::move(tempInputFile);
     }
 }
 void GameEngine::executeCdCommand() {
@@ -32,14 +34,14 @@ void GameEngine::executeCdCommand() {
         cout<<"The correct format is: cd <directory>\n";
 
 }
-void GameEngine::executeCaesarCommand(ifstream &inputFile, bool isReadingFromFile) {
+void GameEngine::executeCaesarCommand(ifstream &inputFileStream, bool isReadingFromFile) {
     ///EXECUTAM ALGORITMUL CEZAR
     string file;
     if (isReadingFromFile == false)
         getline(cin,file);
     else {
         cout<<"You entered: "<< file <<"\n";
-        getline(inputFile,file);
+        getline(inputFileStream,file);
     }
     size_t pos = file.find(' ');
     if(pos != string::npos) {
@@ -55,13 +57,13 @@ void GameEngine::executeCaesarCommand(ifstream &inputFile, bool isReadingFromFil
     else
         cout<<"The correct format is: --caesar <file.txt>\n";
 }
-void GameEngine::executeSHA256Command(ifstream &file, bool isReadingFromFile) {
+void GameEngine::executeSHA256Command(ifstream &inputFileStream, bool isReadingFromFile) {
     ///EXECUTAM ALGORITMUL DE HASHING
     string fileName;
     if(isReadingFromFile == false)
         getline(cin, fileName);
     else
-        getline(file,fileName);
+        getline(inputFileStream,fileName);
 
     size_t pos = fileName.find(' ');
     if(pos != string::npos) {
@@ -78,7 +80,7 @@ void GameEngine::executeCATCommand() {
     getline(cin,file);
     terminal.cat(file,level.getCatFiles());
 }
-void GameEngine::displayHelp(ifstream &fileName, const bool &isFileRead) {
+void GameEngine::displayHelp(ifstream &inputFileStream, const bool &isFileRead) {
     ///PREZENTARE DIVERSE FUNCTII CARE EXISTA PE BAZA CATEGORIEI DIN CARE FAC PARTE
     cout<<"HOW MIGHT I HELP YOU TODAY?"<<endl;
     cout<<"1. List of personalities: "<<endl;
@@ -89,7 +91,7 @@ void GameEngine::displayHelp(ifstream &fileName, const bool &isFileRead) {
     if(isFileRead == false)
         cin>>number;
     else {
-        fileName >> number;
+        inputFileStream >> number;
         cout<<"You've entered number "<<number<<"\n";
     }
     if(number == 1) {
@@ -102,7 +104,7 @@ void GameEngine::displayHelp(ifstream &fileName, const bool &isFileRead) {
         if(isFileRead == false)
             cin>>hackerPersonality;
         else {
-            fileName >> hackerPersonality;
+            inputFileStream >> hackerPersonality;
             cout<<"You've entered number "<<hackerPersonality<<"\n";
         }
         if( (hackerPersonality == 1 || hackerPersonality == 2) || hackerPersonality == 3)
@@ -151,15 +153,11 @@ void GameEngine::display_prompt() {
 }
 
 void GameEngine::readingCommandsFromFile() {
-    ///CITIRE DIN FISIER PENTRU SIMULARE
     string commandLine;
     while (getline(inputFile, commandLine)) {
         display_prompt();
         cout << "Executing from file: " << commandLine << endl;
-        while(getline(inputFile, commandLine)) {
-            cout << "Executing from file: " << commandLine << endl;
-            exec_commands(commandLine);
-        }
+        exec_commands(commandLine);
     }
     readingFromFile = false;
     inputFile.close();
@@ -216,3 +214,4 @@ GameEngine& GameEngine::operator=(const GameEngine &other) {
     }
     return *this;
 }
+
