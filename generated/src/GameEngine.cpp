@@ -144,6 +144,7 @@ void GameEngine::exec_commands(const string &input) {
         run = false;
     else {
         cout<<"Command not found... Type --help to see the list of commands..."<<endl;
+        run = false;
     }
 }
 
