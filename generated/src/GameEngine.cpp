@@ -32,10 +32,10 @@ void GameEngine::executeCdCommand() {
         cout<<"The correct format is: cd <directory>\n";
 
 }
-void GameEngine::executeCaesarCommand(ifstream &inputFile, bool readingFromFile) {
+void GameEngine::executeCaesarCommand(ifstream &inputFile, bool isReadingFromFile) {
     ///EXECUTAM ALGORITMUL CEZAR
     string file;
-    if (readingFromFile == false)
+    if (isReadingFromFile == false)
         getline(cin,file);
     else {
         cout<<"You entered: "<< file <<"\n";
@@ -55,10 +55,10 @@ void GameEngine::executeCaesarCommand(ifstream &inputFile, bool readingFromFile)
     else
         cout<<"The correct format is: --caesar <file.txt>\n";
 }
-void GameEngine::executeSHA256Command(ifstream &file, bool readingFromFile) {
+void GameEngine::executeSHA256Command(ifstream &file, bool isReadingFromFile) {
     ///EXECUTAM ALGORITMUL DE HASHING
     string fileName;
-    if(readingFromFile == false)
+    if(isReadingFromFile == false)
         getline(cin, fileName);
     else
         getline(file,fileName);
@@ -78,7 +78,7 @@ void GameEngine::executeCATCommand() {
     getline(cin,file);
     terminal.cat(file,level.getCatFiles());
 }
-void GameEngine::displayHelp(ifstream &fileName, const bool &fileRead) {
+void GameEngine::displayHelp(ifstream &fileName, const bool &isFileRead) {
     ///PREZENTARE DIVERSE FUNCTII CARE EXISTA PE BAZA CATEGORIEI DIN CARE FAC PARTE
     cout<<"HOW MIGHT I HELP YOU TODAY?"<<endl;
     cout<<"1. List of personalities: "<<endl;
@@ -86,7 +86,7 @@ void GameEngine::displayHelp(ifstream &fileName, const bool &fileRead) {
     cout<<"Enter a number:";
 
     int number;
-    if(fileRead == false)
+    if(isFileRead == false)
         cin>>number;
     else {
         fileName >> number;
@@ -99,7 +99,7 @@ void GameEngine::displayHelp(ifstream &fileName, const bool &fileRead) {
         int hackerPersonality;
 
         cout << "Enter a number from the list: ";
-        if(fileRead == false)
+        if(isFileRead == false)
             cin>>hackerPersonality;
         else {
             fileName >> hackerPersonality;
