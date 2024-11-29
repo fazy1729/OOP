@@ -12,7 +12,7 @@ Hacker::Hacker(const string &specialization,const string &skills)
 
     commands_list[1][0] = "Metadata Analysis";
     commands_list[1][1] = "Searching Files";
-    commands_list[1][2] = "Incident Response";
+    commands_list[1][2] = "Find Patterns";
 
     commands_list[2][0] = "Network Penetration Testing";
     commands_list[2][1] = "Packet Analysis";
