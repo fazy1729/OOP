@@ -9,7 +9,7 @@ GameEngine::GameEngine(const std::string& fileName) :
     run(true)
 {
     std::ifstream tempInputFile;
-    tempInputFile.open(R"(D:\CloneProjectsGIT\proiect_oop\OOP\tastatura.txt)");
+    tempInputFile.open("tastatura.txt");
     if (!tempInputFile) {
         std::cerr << "Unable to open file " << fileName << std::endl;
         readingFromFile = false;
@@ -258,24 +258,4 @@ GameEngine::GameEngine(const GameEngine &other)
     }
 }
 
-GameEngine& GameEngine::operator=(const GameEngine &other) {
-    if (this != &other) {
-        root = other.root;
-        cryptoHacker = other.cryptoHacker;
-        level = other.level;
-        readingFromFile = other.readingFromFile;
-        run = other.run;
 
-        if (inputFile.is_open()) {
-            inputFile.close();
-        }
-        if (readingFromFile && other.readingFromFile) {
-            inputFile.open(R"(D:\CloneProjectsGIT\proiect_oop\OOP\tastatura.txt)");
-            if (!inputFile) {
-                std::cerr << "Unable to open file tastatura.txt" << std::endl;
-                readingFromFile = false;
-            }
-        }
-    }
-    return *this;
-}
