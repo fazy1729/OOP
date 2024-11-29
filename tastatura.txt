@@ -9,4 +9,9 @@ test
 --caesar caesar.txt
 --sha256
 --sha256 caesar.txt
-test
+--extract-metadata
+--extract-metadata file2.txt
+--analyze-patterns
+--analyze-patterns file3.txt
+--search-keyword
+--search-keyword file3.txt IP

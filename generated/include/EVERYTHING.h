@@ -12,5 +12,8 @@
 #include <openssl/evp.h>
 #include <sstream>
 #include <string.h>
+#include <memory>
+#include <algorithm>
+#include <regex>
 
 #endif

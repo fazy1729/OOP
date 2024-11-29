@@ -9,6 +9,8 @@ Level:: Level(int currentLevel) {
     if (currentLevel == 1) {
         objective = "Decrypt the MESSAGE, find the PASSWORD, to gain important knowledge about the MOSSAD agent\n";
         catFiles["caesar.txt"] = {"Kdvk wklv phvvdjh zlwk wkh WDUJHW dqg WLPH Dojkrulwp"};
+        catFiles["file2.txt"] = {"Salut"};
+        catFiles["file3.txt"] = {"Hello, contact us at support@example.com.\n Visit https://shorturl.at/UtRvu for more details.Server IP is 192.168.0.1."};
         this->target = "SHAd aku";
         cout << ": TEL AVIV  32.0929 N 34.8072 E..." << "TARGET: " << target << "...TIME 14:56...\n";
     }

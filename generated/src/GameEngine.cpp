@@ -3,14 +3,14 @@ using namespace std;
 
 GameEngine::GameEngine(const string& fileName) :
     root("CryptoHacker", "ROOT"),
-    cryptohacker("HELP"),
+    cryptoHacker("1"),
     interface(fileName),
     level(1),
     readingFromFile(true),
     run(true)
 {
     ifstream tempInputFile;
-    tempInputFile.open("C:\\Users\\florin\\Desktop\\Facultate\\An2\\OOP\\tastatura.txt");
+    tempInputFile.open(R"(D:\CloneProjectsGIT\proiect_oop\OOP\tastatura.txt)");
     if (!tempInputFile) {
         cerr << "Unable to open file " << fileName << endl;
         readingFromFile = false;
@@ -50,7 +50,7 @@ void GameEngine::executeCaesarCommand(ifstream &inputFileStream, bool isReadingF
         auto it = catFiles.find(file);
         if(it != catFiles.end())
             for(auto &text : it->second)
-                cryptohacker.CaesarDecypher(text);
+                cryptoHacker.CaesarDecypher(text);
         else
             cout<<"File not found"<<endl;
     }
@@ -68,7 +68,7 @@ void GameEngine::executeSHA256Command(ifstream &inputFileStream, bool isReadingF
     size_t pos = fileName.find(' ');
     if(pos != string::npos) {
         fileName = fileName.substr(pos+1);
-        string hash = cryptohacker.SHA256(fileName, level.getCatFiles());
+        string hash = cryptoHacker.SHA256(fileName, level.getCatFiles());
         cout << "SHA256 hash: " << hash << endl;
     }
     else
@@ -122,6 +122,64 @@ void GameEngine::displayHelp(ifstream &inputFileStream, const bool &isFileRead) 
         run = false;
     }
 }
+
+void GameEngine::executeExtractMetadataCommand(ifstream &inputFile, bool readingFromFile) {
+    string fileName;
+    if (readingFromFile)
+        getline(inputFile, fileName);
+    else {
+        cout << "Enter the file name: ";
+        getline(cin, fileName);
+    }
+
+    size_t pos = fileName.find(' ');
+    if (pos != string::npos) {
+        fileName = fileName.substr(pos + 1);
+        forensicHacker.ExtractMetadata(fileName, level.getCatFiles());
+    } else {
+        cout << "The correct format is: --extract-metadata <file.txt>\n";
+    }
+}
+void GameEngine::executeSearchKeywordCommand(ifstream &inputFile, bool readingFromFile) {
+    string input;
+    string input2;
+    string keyword;
+    if(readingFromFile == false)
+        getline(cin, input);
+    else
+        getline(inputFile ,input);
+    size_t start = input.find(' ');
+    size_t start2 = input.find(' ', start+1);
+    if (start != string::npos and start2 != string::npos) {
+        input2 = input.substr(start+1, start2-start-1);
+        keyword = input.substr(start2+1);
+        forensicHacker.SearchKeyword(input2, keyword, level.getCatFiles());
+    }
+    else
+        cout << "The correct format is: --search-keyword <file.txt> <keyword>\n";
+}
+
+void GameEngine::executeAnalyzePatternsCommand(ifstream &inputFile, bool readingFromFile) {
+    string input;
+    if(readingFromFile == false)
+        getline(cin, input);
+    else
+        getline(inputFile ,input);
+    // Trim leading spaces
+    size_t startPos = input.find(' ');
+    if (startPos != string::npos) {
+        input = input.substr(startPos + 1);
+        forensicHacker.AnalyzeFilePatterns(input, level.getCatFiles());
+    }
+    else
+        cout << "The correct format is: --analyze-patterns <file.txt>\n";
+
+}
+
+
+
+
+
 void GameEngine::exec_commands(const string &input) {
     ///IN FUNCTIE DE INPUT-UL UTILIZATORIULUI EXECUTAM COMANDA, DACA NU EXISTA ATUNCI NE VA AFISA UN MESAJ CORESPUNZATOR
     if(input == "ls")
@@ -138,13 +196,19 @@ void GameEngine::exec_commands(const string &input) {
         executeCATCommand();
     else if(input == "--help")
         displayHelp(inputFile, readingFromFile);
+    else if (input == "--extract-metadata")
+        executeExtractMetadataCommand(inputFile, readingFromFile);
+    else if (input == "--search-keyword")
+        executeSearchKeywordCommand(inputFile, readingFromFile);
+    else if (input == "--analyze-patterns")
+        executeAnalyzePatternsCommand(inputFile, readingFromFile);
     else if(input == "--objective")
         cout<<level.getObjective();
     else if(input =="--exit")
         run = false;
     else {
         cout<<"Command not found... Type --help to see the list of commands..."<<endl;
-        run = false;
+        run=false;
     }
 }
 
@@ -180,7 +244,7 @@ void GameEngine::readingCommandsFromFile() {
 
 GameEngine::GameEngine(const GameEngine &other)
     : root(other.root),
-      cryptohacker(other.cryptohacker),
+      cryptoHacker(other.cryptoHacker),
       interface(other.interface),
       level(other.level),
       readingFromFile(other.readingFromFile),
@@ -198,7 +262,7 @@ GameEngine::GameEngine(const GameEngine &other)
 GameEngine& GameEngine::operator=(const GameEngine &other) {
     if (this != &other) {
         root = other.root;
-        cryptohacker = other.cryptohacker;
+        cryptoHacker = other.cryptoHacker;
         level = other.level;
         readingFromFile = other.readingFromFile;
         run = other.run;
@@ -207,7 +271,7 @@ GameEngine& GameEngine::operator=(const GameEngine &other) {
             inputFile.close();
         }
         if (readingFromFile && other.readingFromFile) {
-            inputFile.open("scripts/tastatura.txt");
+            inputFile.open(R"(D:\CloneProjectsGIT\proiect_oop\OOP\tastatura.txt)");
             if (!inputFile) {
                 cerr << "Unable to open file tastatura.txt" << endl;
                 readingFromFile = false;
