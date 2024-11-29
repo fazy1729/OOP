@@ -65,20 +65,20 @@ void ForensicHacker::AnalyzeFilePatterns(const string &fileName, const map<strin
         const string &line = fileContent[lineNum];
 
         // Match email addresses
-        for (sregex_iterator it(line.begin(), line.end(), emailRegex), end; it != end; ++it) {
-            cout << "Email found at line " << lineNum + 1 << ": " << it->str() << endl;
+        for (sregex_iterator matches(line.begin(), line.end(), emailRegex), end; matches != end; ++matches) {
+            cout << "Email found at line " << lineNum + 1 << ": " << matches->str() << endl;
             patternFound = true;
         }
 
         // Match IP addresses
-        for (sregex_iterator it(line.begin(), line.end(), ipRegex), end; it != end; ++it) {
-            cout << "IP address found at line " << lineNum + 1 << ": " << it->str() << endl;
+        for (sregex_iterator matches(line.begin(), line.end(), ipRegex), end; matches != end; ++matches) {
+            cout << "IP address found at line " << lineNum + 1 << ": " << matches->str() << endl;
             patternFound = true;
         }
 
         // Match URLs
-        for (sregex_iterator it(line.begin(), line.end(), urlRegex), end; it != end; ++it) {
-            cout << "URL found at line " << lineNum + 1 << ": " << it->str() << endl;
+        for (sregex_iterator matches(line.begin(), line.end(), urlRegex), end; matches != end; ++matches) {
+            cout << "URL found at line " << lineNum + 1 << ": " << matches->str() << endl;
             patternFound = true;
         }
     }

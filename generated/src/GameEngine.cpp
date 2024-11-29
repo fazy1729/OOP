@@ -123,10 +123,10 @@ void GameEngine::displayHelp(ifstream &inputFileStream, const bool &isFileRead) 
     }
 }
 
-void GameEngine::executeExtractMetadataCommand(ifstream &inputFile, bool readingFromFile) {
+void GameEngine::executeExtractMetadataCommand(ifstream &inputFileStream, bool isReadingFromFile) {
     string fileName;
-    if (readingFromFile)
-        getline(inputFile, fileName);
+    if (isReadingFromFile)
+        getline(inputFileStream, fileName);
     else {
         cout << "Enter the file name: ";
         getline(cin, fileName);
@@ -140,14 +140,14 @@ void GameEngine::executeExtractMetadataCommand(ifstream &inputFile, bool reading
         cout << "The correct format is: --extract-metadata <file.txt>\n";
     }
 }
-void GameEngine::executeSearchKeywordCommand(ifstream &inputFile, bool readingFromFile) {
+void GameEngine::executeSearchKeywordCommand(ifstream &inputFileStream, bool isReadingFromFile) {
     string input;
     string input2;
     string keyword;
-    if(readingFromFile == false)
+    if(isReadingFromFile == false)
         getline(cin, input);
     else
-        getline(inputFile ,input);
+        getline(inputFileStream ,input);
     size_t start = input.find(' ');
     size_t start2 = input.find(' ', start+1);
     if (start != string::npos and start2 != string::npos) {
@@ -159,12 +159,12 @@ void GameEngine::executeSearchKeywordCommand(ifstream &inputFile, bool readingFr
         cout << "The correct format is: --search-keyword <file.txt> <keyword>\n";
 }
 
-void GameEngine::executeAnalyzePatternsCommand(ifstream &inputFile, bool readingFromFile) {
+void GameEngine::executeAnalyzePatternsCommand(ifstream &inputFileStream, bool isReadingFromFile) {
     string input;
-    if(readingFromFile == false)
+    if(isReadingFromFile == false)
         getline(cin, input);
     else
-        getline(inputFile ,input);
+        getline(inputFileStream ,input);
     // Trim leading spaces
     size_t startPos = input.find(' ');
     if (startPos != string::npos) {
