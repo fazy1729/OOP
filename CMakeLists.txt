@@ -91,6 +91,6 @@ if(APPLE)
     install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
 endif()
 include(cmake/CopyHelper.cmake)
-copy_files(FILES tastatura.txt)
+#copy_files(FILES tastatura.txt)
 # copy_files(FILES tastatura.txt config.json DIRECTORY images sounds)
 
