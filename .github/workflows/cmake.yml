@@ -156,7 +156,7 @@ jobs:
             # cmake_generator: "Ninja"
             # cmake_generator: "Ninja Multi-Config"
             # This env runs address sanitizers
-            runs_asan: false
+            runs_asan: true
 
           - os: windows-2022
             c: cl
@@ -169,14 +169,6 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.name }}  # This dynamically gives a unique name based on the matrix value
-          path: ${{ matrix.BIN_DIR }}  # The path where your build artifacts are located
-          retention-days: 30  # How long to keep the artifact
-          overwrite: true   # This ensures that if an artifact with the same name already exists, it will be replaced.
       - name: Set timestamp and zip name
         run: |
           echo "TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)" >> ${GITHUB_ENV}
