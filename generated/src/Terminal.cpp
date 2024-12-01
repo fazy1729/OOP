@@ -44,6 +44,13 @@ void Terminal::list_commands_help() {
         else if(number == 2) {
             cout<<"--sha256 - You can hash a message using the SHA256 alghoritm : usage example : --sha256 <file.txt>\n";
             cout<<"--caesar - You can decrypt an encrypted message that if shifted with 3 positions: usage example: --caesar <file.txt>\n";
+            cout << "--extract-metadata - You can extract metadata from a given file, such as author, creation date, and other information. Usage example: --extract-metadata <file.txt>\n";
+            cout << "--search-keyword - You can search for a specific keyword within a file and return the results. Usage example: --search-keyword <file.txt> <keyword>\n";
+            cout << "--analyze-patterns - You can analyze a file for certain patterns or anomalies. Usage example: --analyze-patterns <file.txt>\n";
+            cout << "--port-scan - You can perform a port scan on a target IP to check open ports. Usage example: --port-scan <target_ip>\n";
+            cout << "--intercept-packets - You can intercept and analyze network packets to monitor traffic. Usage example: --intercept-packets <file.txt>\n";
+            cout << "--spoof-request - You can spoof a network request with a target IP and custom message. Usage example: --spoof-request <target_ip> <message>\n";
+            cout << "--capture-traffic - You can capture network traffic logs, such as IP addresses and data sent. Usage example: --capture-traffic <file.txt>\n";
         }
     }
 

@@ -14,9 +14,9 @@ Hacker::Hacker(const string &specialization,const string &skills)
     commands_list[1][1] = "Searching Files";
     commands_list[1][2] = "Find Patterns";
 
-    commands_list[2][0] = "Network Penetration Testing";
+    commands_list[2][0] = "Port scan";
     commands_list[2][1] = "Packet Analysis";
-    commands_list[2][2] = "Firewall and Intrusion Detection Bypassing";
+    commands_list[2][2] = "Spoofing";
 
     hacker_personality[0] = "CryptoHacker";
     hacker_personality[1] = "ForensicsHacker";
