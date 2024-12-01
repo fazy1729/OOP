@@ -31,7 +31,7 @@ public:
     vector<PortStatus> getPortsForLevel(int level) const;
     int getCurrentLevel() const;
 
-    static void getPassword(int currLevel);
+    bool getPassword(int currLevel);
 
 
     ~Level() = default;

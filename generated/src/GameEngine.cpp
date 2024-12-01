@@ -21,19 +21,35 @@ GameEngine::GameEngine(const string& fileName) :
 }
 void GameEngine::executeCdCommand() {
     string dir;
-    getline(cin, dir);
-    size_t poz = dir.find(' ');
-    if(poz != string::npos) {
-        dir = dir.substr(poz+1);
-        if(dir != "SECRET")
-            terminal.cd(dir);
-        else
-            level.getPassword(level.getCurrentLevel());
-    }
-    else
-        cout<<"The correct format is: cd <directory>\n";
+    getline(cin, dir);  // Read the directory input
 
+    size_t poz = dir.find(' ');  // Check if there's a space, which indicates a command format.
+
+    if (poz != string::npos) {
+        dir = dir.substr(poz + 1);  // Extract the directory name
+        if (dir != "SECRET") {
+            terminal.cd(dir);  // If it's not the "SECRET" directory, change the directory normally.
+        } else {
+            // Check the password for the current level
+            bool correctPassword = level.getPassword(level.getCurrentLevel());
+
+            if (correctPassword) {
+                // If the password is correct, advance to Level 2 (or next level)
+                if (level.getCurrentLevel() == 1) {
+                    cout << "Congratulations! You've advanced to Level 2!\n";
+                    level = Level(2);  // Create a new Level object for Level 2
+                    cout << level.getObjective() << endl;
+                }
+            } else {
+                cout << "You cannot advance to the next level. Try again.\n";
+            }
+        }
+    } else {
+        cout << "The correct format is: cd <directory>\n";
+    }
 }
+
+
 void GameEngine::executeCaesarCommand(ifstream &inputFileStream, bool isReadingFromFile) {
     ///EXECUTAM ALGORITMUL CEZAR
     string file;
@@ -265,8 +281,6 @@ void GameEngine::executeSpoofRequestCommand(ifstream &inputFileStream, bool isRe
 
 void GameEngine::executeCaptureTrafficCommand(ifstream &inputFileStream, bool isReadingFromFile) {
     vector<string> trafficLogs;
-
-    // If reading from file
     if (isReadingFromFile) {
         string line;
         while (getline(inputFileStream, line)) {
@@ -343,7 +357,6 @@ void GameEngine::exec_commands(const string &input) {
         run = false;
     else {
         cout << "Command not found... Type --help to see the list of commands..." << endl;
-        run=false;
     }
 }
 
