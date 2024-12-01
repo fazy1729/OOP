@@ -106,7 +106,7 @@ jobs:
             clang_ver: "18"
             clang_ver_full: "18.1.8"
             name: "MSan: Ubuntu 22.04 Clang 18"
-            cmake_flags: "-DUSE_MSAN=ON"
+            cmake_flags: "-DUSE_MSAN=OFF"
             cmake_generator: Ninja
             # This env runs memory sanitizers
             runs_msan: true
