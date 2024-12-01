@@ -11,9 +11,27 @@ Level:: Level(int currentLevel) {
         catFiles["caesar.txt"] = {"Kdvk wklv phvvdjh zlwk wkh WDUJHW dqg WLPH Dojkrulwp"};
         catFiles["file2.txt"] = {"Salut"};
         catFiles["file3.txt"] = {"Hello, contact us at support@example.com.\n Visit https://shorturl.at/UtRvu for more details.Server IP is 192.168.0.1."};
+        levelPorts[currentLevel] = {
+            {80, true},   // Port 80 open
+            {22, false},  // Port 22 closed
+            {443, true},  // Port 443 open
+            {8080, false} // Port 8080 closed
+        };
         this->target = "SHAd aku";
         cout << ": TEL AVIV  32.0929 N 34.8072 E..." << "TARGET: " << target << "...TIME 14:56...\n";
     }
+}
+
+void Level::setPortsForLevel(int level, const vector<PortStatus>& ports) {
+    levelPorts[level] = ports;
+}
+
+std::vector<PortStatus> Level::getPortsForLevel(int level) const {
+    auto it = levelPorts.find(level);
+    if (it != levelPorts.end()) {
+        return it->second;
+    }
+    return {};
 }
 
 Level::Level(const Level &level) : Terminal(level) {

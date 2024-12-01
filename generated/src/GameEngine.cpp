@@ -1,4 +1,5 @@
 #include "GameEngine.h"
+
 using namespace std;
 
 GameEngine::GameEngine(const string& fileName) :
@@ -19,7 +20,6 @@ GameEngine::GameEngine(const string& fileName) :
     }
 }
 void GameEngine::executeCdCommand() {
-    ///FACEM CD DIN LINUX - EFECTIV NE PLIMBAM PRIN HASHMAP
     string dir;
     getline(cin, dir);
     size_t poz = dir.find(' ');
@@ -176,21 +176,152 @@ void GameEngine::executeAnalyzePatternsCommand(ifstream &inputFileStream, bool i
 
 }
 
+void GameEngine::executePortScanCommand(ifstream &inputFileStream, bool isReadingFromFile) {
+    string target;
+    if (isReadingFromFile)
+        getline(inputFileStream, target);
+    else {
+        cout << "Enter target IP or hostname: ";
+        getline(cin, target);
+    }
+
+    vector<int> ports = {22, 80, 443, 8080, 3306}; // Example ports
+    networkingHacker.SimulatePortScan(target, ports, level);
+}
+
+void GameEngine::executeInterceptPacketsCommand(ifstream &inputFileStream, bool isReadingFromFile) {
+    vector<string> packets;
+
+    if (isReadingFromFile) {
+        string line;
+        while (getline(inputFileStream, line)) {
+            packets.push_back(line);
+        }
+    } else {
+        cout << "Enter packets to intercept (type 'done' to finish):\n";
+        string packet;
+        while (true) {
+            cout << "Packet: ";
+            getline(cin, packet);
+            if (packet == "done") break;
+            packets.push_back(packet);
+        }
+    }
+    if (level.getCurrentLevel() == 1) {
+        packets.push_back("SRC: 192.168.1.1 -> DEST: 10.0.0.1 | DATA: Simple Request");
+        packets.push_back("SRC: 10.0.0.1 -> DEST: 192.168.1.1 | DATA: Simple Response");
+    } else if (level.getCurrentLevel() == 2) {
+        // Level 2: Intercepting more complex packets
+        cout << "Level 2: Intercepting more complex packets...\n";
+        packets.push_back("SRC: 192.168.1.1 -> DEST: 10.0.0.1 | DATA: LOGIN Request | Protocol: HTTPS");
+        packets.push_back("SRC: 10.0.0.1 -> DEST: 192.168.1.1 | DATA: ACK Response | Protocol: HTTPS");
+        packets.push_back("SRC: 192.168.1.2 -> DEST: 10.0.0.1 | DATA: FILE Transfer | Protocol: FTP");
+    } else if (level.getCurrentLevel() == 3) {
+        // Level 3: Advanced traffic capture with IP and protocol details
+        cout << "Level 3: Intercepting advanced packets with protocol analysis...\n";
+        packets.push_back("SRC: 192.168.1.100 -> DEST: 10.0.0.50 | DATA: AUTH Request | Protocol: TLS 1.3");
+        packets.push_back("SRC: 10.0.0.50 -> DEST: 192.168.1.100 | DATA: AUTH Response | Protocol: TLS 1.3");
+        packets.push_back("SRC: 192.168.2.1 -> DEST: 10.0.0.1 | DATA: DNS Query | Protocol: DNS");
+        packets.push_back("SRC: 10.0.0.1 -> DEST: 192.168.2.1 | DATA: DNS Response | Protocol: DNS");
+    }
+
+    // Call the method to intercept the packets
+    networkingHacker.InterceptPackets(packets);
+}
+
+
+void GameEngine::executeSpoofRequestCommand(ifstream &inputFileStream, bool isReadingFromFile) {
+    string targetIP, message;
+
+    // If reading from file
+    if (isReadingFromFile) {
+        if (!getline(inputFileStream, targetIP) || !getline(inputFileStream, message)) {
+            cout << "Error reading from file." << endl;
+            return;
+        }
+    }
+    else {
+        cout << "Enter target IP: ";
+        getline(cin, targetIP);
+        cout << "Enter message to spoof: ";
+        getline(cin, message);
+    }
+
+    // Level-based spoof request simulation
+    if (level.getCurrentLevel() == 1) {
+        cout << "Level 1: Spoofing simple request...\n";
+    } else if (level.getCurrentLevel() == 2) {
+        // Level 2: More advanced spoofing simulation
+        cout << "Level 2: Spoofing advanced request...\n";
+    } else if (level.getCurrentLevel() == 3) {
+        // Level 3: Very sophisticated spoofing simulation
+        cout << "Level 3: Spoofing very sophisticated request...\n";
+    }
+
+    // Execute the spoof request with the gathered target IP and message
+    networkingHacker.SpoofRequest(targetIP, message);
+}
+
+
+void GameEngine::executeCaptureTrafficCommand(ifstream &inputFileStream, bool isReadingFromFile) {
+    vector<string> trafficLogs;
+
+    // If reading from file
+    if (isReadingFromFile) {
+        string line;
+        while (getline(inputFileStream, line)) {
+            trafficLogs.push_back(line);
+        }
+    }
+    // If reading from standard input
+    else {
+        cout << "Enter traffic logs (type 'done' to finish):\n";
+        string log;
+        while (true) {
+            cout << "Log: ";
+            getline(cin, log);
+            if (log == "done") break;
+            trafficLogs.push_back(log);
+        }
+    }
+
+    // Level-based traffic capture simulation
+    if (level.getCurrentLevel() == 1) {
+        cout << "Level 1: Capturing simple traffic logs...\n";
+        trafficLogs.push_back("IP: 192.168.0.1 SENT: 100 bytes");
+        trafficLogs.push_back("IP: 192.168.1.3 SENT: 200 bytes");
+    } else if (level.getCurrentLevel() == 2) {
+        // Level 2: Capturing more complex traffic logs
+        cout << "Level 2: Capturing more complex traffic logs...\n";
+        trafficLogs.push_back("IP: 192.168.1.1 SENT: 500 bytes | Protocol: HTTP");
+        trafficLogs.push_back("IP: 10.0.0.1 SENT: 1000 bytes | Protocol: HTTPS");
+    } else if (level.getCurrentLevel() == 3) {
+        // Level 3: Advanced traffic capture with protocol analysis
+        cout << "Level 3: Capturing advanced traffic with detailed analysis...\n";
+        trafficLogs.push_back("IP: 192.168.1.100 SENT: 2000 bytes | Protocol: TLS 1.3");
+        trafficLogs.push_back("IP: 10.0.0.50 SENT: 1500 bytes | Protocol: FTP");
+    }
+
+    // Call the method to capture the traffic logs
+    networkingHacker.CaptureTraffic(trafficLogs);
+}
+
+
+
 void GameEngine::exec_commands(const string &input) {
-    ///IN FUNCTIE DE INPUT-UL UTILIZATORIULUI EXECUTAM COMANDA, DACA NU EXISTA ATUNCI NE VA AFISA UN MESAJ CORESPUNZATOR
-    if(input == "ls")
+    if (input == "ls")
         terminal.ls();
-    else if(input == "pwd")
+    else if (input == "pwd")
         terminal.pwd();
-    else if(input == "cd")
+    else if (input == "cd")
         executeCdCommand();
-    else if(input == "--caesar")
+    else if (input == "--caesar")
         executeCaesarCommand(inputFile, readingFromFile);
-    else if(input == "--sha256")
+    else if (input == "--sha256")
         executeSHA256Command(inputFile, readingFromFile);
-    else if(input == "cat")
+    else if (input == "cat")
         executeCATCommand();
-    else if(input == "--help")
+    else if (input == "--help")
         displayHelp(inputFile, readingFromFile);
     else if (input == "--extract-metadata")
         executeExtractMetadataCommand(inputFile, readingFromFile);
@@ -198,15 +329,23 @@ void GameEngine::exec_commands(const string &input) {
         executeSearchKeywordCommand(inputFile, readingFromFile);
     else if (input == "--analyze-patterns")
         executeAnalyzePatternsCommand(inputFile, readingFromFile);
-    else if(input == "--objective")
-        cout<<level.getObjective();
-    else if(input =="--exit")
+    else if (input == "--port-scan")
+        executePortScanCommand(inputFile, readingFromFile);
+    else if (input == "--intercept-packets")
+        executeInterceptPacketsCommand(inputFile, readingFromFile);
+    else if (input == "--spoof-request")
+        executeSpoofRequestCommand(inputFile, readingFromFile);
+    else if (input == "--capture-traffic")
+        executeCaptureTrafficCommand(inputFile, readingFromFile);
+    else if (input == "--objective")
+        cout << level.getObjective();
+    else if (input == "--exit")
         run = false;
     else {
-        cout<<"Command not found... Type --help to see the list of commands..."<<endl;
-        run=false;
+        cout << "Command not found... Type --help to see the list of commands..." << endl;
     }
 }
+
 
 void GameEngine::display_prompt() {
     ///NE ARATA PROMPTUL

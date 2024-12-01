@@ -1,18 +1,24 @@
-
-#ifndef FORENSICSHACKER_H
-#define FORENSICSHACKER_H
 #ifndef FORENSICHACKER_H
 #define FORENSICHACKER_H
 
 #include "EVERYTHING.h"
+using namespace std;
 
 class ForensicHacker {
+private:
+    string specialization;
 public:
-    static void ExtractMetadata(const std::string &fileName, const std::map<std::string, std::vector<std::string>> &catFiles);
-    static void SearchKeyword(const std::string &fileName, const std::string &keyword, const std::map<std::string, std::vector<std::string>> &catFiles);
-    static void AnalyzeFilePatterns(const std::string &fileName, const std::map<std::string, std::vector<std::string>> &catFiles);
-};
+    ForensicHacker(const string &specialization) : specialization(specialization) {}
+    ForensicHacker() : specialization("General Forensics") {}
+    ForensicHacker(const ForensicHacker &other) = default;
 
-#endif
+    ~ForensicHacker() = default;
+
+    static void ExtractMetadata(const string &fileName, const map<string, vector<string>> &catFiles);
+    static void SearchKeyword(const string &fileName, const string &keyword, const map<string, vector<string>> &catFiles);
+    static void AnalyzeFilePatterns(const string &fileName, const map<string, vector<string>> &catFiles);
+
+
+};
 
 #endif

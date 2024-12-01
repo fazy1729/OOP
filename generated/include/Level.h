@@ -5,6 +5,10 @@
 #include "Terminal.h"
 
 using namespace std;
+struct PortStatus {
+    int port;
+    bool isOpen;
+};
 
 class Level : public Terminal {
 private:
@@ -12,6 +16,7 @@ private:
     string objective;
     string target;
 
+    map<int, vector<PortStatus>> levelPorts;
     map<string, vector<string>> catFiles;
 
 public:
@@ -22,6 +27,8 @@ public:
     Level& operator=(const Level& level);
     string getObjective() const;
     map<string, vector<string>> getCatFiles();
+    void setPortsForLevel(int level, const vector<PortStatus>& ports);
+    vector<PortStatus> getPortsForLevel(int level) const;
     int getCurrentLevel() const;
 
     static void getPassword(int currLevel);
