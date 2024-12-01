@@ -207,6 +207,7 @@ bool Level::getPassword(int currLevel) {
         std::cout << "ACCESS DENIED\n";
         return false;
     }
+    return false;
 }
 
 /**
