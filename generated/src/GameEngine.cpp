@@ -1,4 +1,5 @@
 #include "GameEngine.h"
+#include "HackerExceptions.h"
 
 GameEngine::GameEngine(const std::string& fileName) :
     root(cryptoHacker),
@@ -308,45 +309,62 @@ void GameEngine::executeCaptureTrafficCommand(ifstream &inputFileStream, bool is
 }
 
 void GameEngine::exec_commands(const string &input) {
-    if (input == "ls")
-        terminal.ls();
-    else if (input == "pwd")
-        terminal.pwd();
-    else if (input == "cd")
-        executeCdCommand();
-    else if (input == "--caesar")
-        executeCaesarCommand(inputFile, readingFromFile);
-    else if (input == "--sha256")
-        executeSHA256Command(inputFile, readingFromFile);
-    else if (input == "cat")
-        executeCATCommand();
-    else if (input == "--help")
-        displayHelp(inputFile, readingFromFile);
-    else if (input == "--extract-metadata")
-        executeExtractMetadataCommand(inputFile, readingFromFile);
-    else if (input == "--search-keyword")
-        executeSearchKeywordCommand(inputFile, readingFromFile);
-    else if (input == "--analyze-patterns")
-        executeAnalyzePatternsCommand(inputFile, readingFromFile);
-    else if (input == "--port-scan")
-        executePortScanCommand(inputFile, readingFromFile);
-    else if (input == "--intercept-packets")
-        executeInterceptPacketsCommand(inputFile, readingFromFile);
-    else if (input == "--spoof-request")
-        executeSpoofRequestCommand(inputFile, readingFromFile);
-    else if (input == "--capture-traffic")
-        executeCaptureTrafficCommand(inputFile, readingFromFile);
-    else if (input == "--objective")
-        cout << level.getObjective();
-    else if(input == "--perform-hack")
-        performHack();
-    else if (input == "--exit")
-        run = false;
-    else {
-        cout << "Command not found... Type --help to see the list of commands..." << endl;
-        run = false;
+    try {
+        if (input == "ls")
+            terminal.ls();
+        else if (input == "pwd")
+            terminal.pwd();
+        else if (input == "cd")
+            executeCdCommand();
+        else if (input == "--caesar")
+            executeCaesarCommand(inputFile, readingFromFile);
+        else if (input == "--sha256")
+            executeSHA256Command(inputFile, readingFromFile);
+        else if (input == "cat")
+            executeCATCommand();
+        else if (input == "--help")
+            displayHelp(inputFile, readingFromFile);
+        else if (input == "--extract-metadata")
+            executeExtractMetadataCommand(inputFile, readingFromFile);
+        else if (input == "--search-keyword")
+            executeSearchKeywordCommand(inputFile, readingFromFile);
+        else if (input == "--analyze-patterns")
+            executeAnalyzePatternsCommand(inputFile, readingFromFile);
+        else if (input == "--port-scan")
+            executePortScanCommand(inputFile, readingFromFile);
+        else if (input == "--intercept-packets")
+            executeInterceptPacketsCommand(inputFile, readingFromFile);
+        else if (input == "--spoof-request")
+            executeSpoofRequestCommand(inputFile, readingFromFile);
+        else if (input == "--capture-traffic")
+            executeCaptureTrafficCommand(inputFile, readingFromFile);
+        else if (input == "--objective")
+            cout << level.getObjective();
+        else if(input == "--perform-hack")
+            performHack();
+        else if (input == "--exit")
+            run = false;
+        else {
+            // Throw exception for unknown commands
+            throw InvalidCommandException(input);
+        }
+    }
+
+    catch (const InvalidCommandException& e) {
+        // Catch and handle InvalidCommandException
+        std::cout << "Error: " << e.what() << std::endl;
+        std::cout << "Please type --help to see the list of available commands." << std::endl;
+    }
+    catch (const std::exception& e) {
+        // Catch and handle any other exceptions
+        std::cout << "An unexpected error occurred: " << e.what() << std::endl;
     }
 }
+
+
+
+
+
 
 void GameEngine::display_prompt() {
     string playerName = interface.getPlayerName();

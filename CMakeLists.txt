@@ -69,6 +69,7 @@ add_executable(${PROJECT_NAME}
         generated/src/ForensicsHacker.cpp
         generated/include/NetworkingHacker.h
         generated/src/NetworkingHacker.cpp
+        generated/include/HackerExceptions.h
 )
 
 target_link_libraries(${PROJECT_NAME} OpenSSL::SSL OpenSSL::Crypto)
