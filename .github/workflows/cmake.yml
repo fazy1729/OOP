@@ -161,7 +161,6 @@ jobs:
           - os: windows-2022
             c: cl
             cxx: cl
-            cmake_flags: ""
             name: "Windows 2022 MinGW GCC 13"
             # cmake_flags:
             runs_asan: false
