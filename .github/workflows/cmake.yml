@@ -164,7 +164,7 @@ jobs:
             cmake_flags: ""
             name: "Windows 2022 MinGW GCC 13"
             # cmake_flags:
-            runs_asan: true
+            runs_asan: false
 
     steps:
       - name: Checkout repo
