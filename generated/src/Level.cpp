@@ -11,7 +11,12 @@ Level:: Level(int currentLevel) {
         objective = "Your mission is clear: decrypt the message, find the password, and uncover crucial information about the mysterious MOSSAD agent. The clock is ticking...\n";
 
         catFiles["caesar.txt"] = {"Kdvk wklv phvvdjh zlwk wkh WDUJHW dqg WLPH Dojkrulwp"};
-
+        levelPorts[currentLevel] = {
+            {80, true},
+            {22, false},
+            {443, true},
+            {8080, false}
+        };
         this->target = "SHAd aku";
 
         // Atmospheric context for the player
@@ -29,12 +34,6 @@ Level:: Level(int currentLevel) {
         objective = "TEST";
         catFiles["file2.txt"] = {"Salut"};
         catFiles["file3.txt"] = {"Hello, contact us at support@example.com.\n Visit https://shorturl.at/UtRvu for more details.Server IP is 192.168.0.1."};
-        levelPorts[currentLevel] = {
-            {80, true},
-            {22, false},
-            {443, true},
-            {8080, false}
-        };
         this->target = "SHAd aku";
         cout << ": TEL AVIV  32.0929 N 34.8072 E..." << "TARGET: " << target << "...TIME 14:56...\n";
     }

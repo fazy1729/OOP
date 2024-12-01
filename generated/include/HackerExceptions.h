@@ -1,8 +1,7 @@
 #ifndef HACKEREXCEPTIONS_H
 #define HACKEREXCEPTIONS_H
 
-#include <exception>
-#include <string>
+#include "EVERYTHING.h"
 
 // Base class for all exceptions related to Hacker operations
 class HackerException : public std::exception {
