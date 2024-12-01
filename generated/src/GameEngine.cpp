@@ -345,8 +345,9 @@ void GameEngine::exec_commands(const string &input) {
         else if (input == "--exit")
             run = false;
         else {
-            // Throw exception for unknown commands
+            run=false;
             throw InvalidCommandException(input);
+
         }
     }
 
@@ -360,9 +361,6 @@ void GameEngine::exec_commands(const string &input) {
         std::cout << "An unexpected error occurred: " << e.what() << std::endl;
     }
 }
-
-
-
 
 
 
