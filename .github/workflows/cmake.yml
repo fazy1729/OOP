@@ -151,7 +151,7 @@ jobs:
             c: cl
             cxx: cl
             name: "ASan: Windows 2022 MSVC 19.41"
-            cmake_flags: "-DUSE_ASAN=ON"
+            cmake_flags: ""
             # Ninja is not faster on MSVC because... MSVC
             # cmake_generator: "Ninja"
             # cmake_generator: "Ninja Multi-Config"
@@ -161,7 +161,7 @@ jobs:
           - os: windows-2022
             c: cl
             cxx: cl
-            cmake_flags: "-DUSE_ASAN=ON"
+            cmake_flags: ""
             name: "Windows 2022 MinGW GCC 13"
             # cmake_flags:
             runs_asan: true
