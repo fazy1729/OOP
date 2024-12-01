@@ -25,7 +25,7 @@ public:
 
     explicit GameEngine(const string& fileName);
     GameEngine(const GameEngine &other);
-    GameEngine() = default;
+    GameEngine() = delete;
     ~GameEngine() = default;
 
     void executeCdCommand();
