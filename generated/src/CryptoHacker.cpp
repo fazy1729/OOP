@@ -47,7 +47,7 @@ string CryptoHacker:: SHA256(const string &fileName, const map<string, vector<st
 
         cerr << "Error during hashing" << endl;
         EVP_MD_CTX_free(context);
-     return "";
+        return "";
         }
 
     EVP_MD_CTX_free(context);
@@ -58,10 +58,3 @@ string CryptoHacker:: SHA256(const string &fileName, const map<string, vector<st
     }
     return hexa.str();
 }
-
-
-
-
-
-
-

@@ -1,8 +1,10 @@
 #include "GameEngine.h"
 
 GameEngine::GameEngine(const std::string& fileName) :
-    root("CryptoHacker", "ROOT"),
-    cryptoHacker("1"),
+    root(cryptoHacker),
+    cryptoHacker("Crypto Skills"),
+    forensicHacker("Forensic Skills"),
+    networkingHacker("Networking Skills"),
     interface(fileName),
     level(1),
     readingFromFile(true),
@@ -16,7 +18,10 @@ GameEngine::GameEngine(const std::string& fileName) :
     } else {
         inputFile = std::move(tempInputFile);
     }
+
 }
+
+
 
 void GameEngine::executeCdCommand() {
     std::string dir;
@@ -84,6 +89,11 @@ void GameEngine::executeSHA256Command(std::ifstream &inputFileStream, bool isRea
     }
     else
         std::cout << "The correct format is: --sha256 <file.txt>\n";
+}
+
+void GameEngine::performHack() {
+    std::cout << "Initiating hack...\n";
+    root.hack();  // Calls the correct hack() method based on root's type
 }
 
 void GameEngine::executeCATCommand() {
@@ -328,6 +338,8 @@ void GameEngine::exec_commands(const string &input) {
         executeCaptureTrafficCommand(inputFile, readingFromFile);
     else if (input == "--objective")
         cout << level.getObjective();
+    else if(input == "--perform-hack")
+        performHack();
     else if (input == "--exit")
         run = false;
     else {
@@ -379,4 +391,10 @@ GameEngine::GameEngine(const GameEngine &other)
             readingFromFile = false;
         }
     }
+}
+
+void GameEngine::duplicateHacker() {
+    Hacker* clonedHacker = root.clone();
+    clonedHacker->hack();
+    delete clonedHacker;
 }

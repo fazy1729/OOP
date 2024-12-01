@@ -2,7 +2,9 @@
 #include "Level.h"
 using namespace std;
 
-NetworkingHacker::NetworkingHacker(const string &specialization) : specialization(specialization) {}
+NetworkingHacker::NetworkingHacker(const std::string& specialization)
+    : Hacker("Network Specialist", specialization){}
+
 NetworkingHacker::NetworkingHacker() : specialization("Networking Specialist") {}
 
 void NetworkingHacker::SimulatePortScan(const string &target, const vector<int> &ports, const Level &level) {

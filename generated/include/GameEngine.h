@@ -10,7 +10,7 @@
 using namespace std;
 class GameEngine {
 private:
-    Hacker root;
+    Hacker &root;
     CryptoHacker cryptoHacker;
     ForensicHacker forensicHacker;
     NetworkingHacker networkingHacker;
@@ -40,13 +40,15 @@ public:
     void executeAnalyzePatternsCommand(ifstream &file, bool readingFromFile);
 
 
-
     void executePortScanCommand(ifstream &inputFileStream, bool isReadingFromFile);
     void executeInterceptPacketsCommand(ifstream &inputFileStream, bool isReadingFromFile);
     void executeSpoofRequestCommand(ifstream &inputFileStream, bool isReadingFromFile);
     void executeCaptureTrafficCommand(ifstream &inputFileStream, bool isReadingFromFile);
 
 
+
+    void duplicateHacker();
+    void performHack();
     void displayHelp(ifstream &fileName, const bool &fileRead);
     void exec_commands(const string &input);
     void display_prompt();

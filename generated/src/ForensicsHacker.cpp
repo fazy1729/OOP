@@ -87,5 +87,3 @@ void ForensicHacker::AnalyzeFilePatterns(const string &fileName, const map<strin
         cout << "No patterns (email, IP address, URL) were found in the file." << endl;
     }
 }
-
-
