@@ -210,20 +210,26 @@ void GameEngine::executePortScanCommand(std::ifstream &inputFileStream, bool isR
     std::vector<int> ports = {22, 80, 443, 8080, 3306};
     networkingHacker.SimulatePortScan(target, ports, level);
 }
-void GameEngine::executeInterceptPacketsCommand(ifstream &inputFileStream, bool isReadingFromFile) {
-    vector<string> packets;
+/**
+ * @brief Executes the --intercept-packets command by collecting packet data and invoking the appropriate method.
+ *
+ * @param inputFileStream The input stream for reading data from file if necessary.
+ * @param isReadingFromFile Flag indicating whether commands are being read from a file.
+ */
+void GameEngine::executeInterceptPacketsCommand(std::ifstream &inputFileStream, bool isReadingFromFile) {
+    std::vector<std::string> packets;
 
     if (isReadingFromFile) {
-        string line;
-        while (getline(inputFileStream, line)) {
+        std::string line;
+        while (std::getline(inputFileStream, line)) {
             packets.push_back(line);
         }
     } else {
-        cout << "Enter packets to intercept (type 'done' to finish):\n";
-        string packet;
+        std::cout << "Enter packets to intercept (type 'done' to finish):\n";
+        std::string packet;
         while (true) {
-            cout << "Packet: ";
-            getline(cin, packet);
+            std::cout << "Packet: ";
+            std::getline(std::cin, packet);
             if (packet == "done") break;
             packets.push_back(packet);
         }
@@ -232,12 +238,12 @@ void GameEngine::executeInterceptPacketsCommand(ifstream &inputFileStream, bool 
         packets.push_back("SRC: 192.168.1.1 -> DEST: 10.0.0.1 | DATA: Simple Request");
         packets.push_back("SRC: 10.0.0.1 -> DEST: 192.168.1.1 | DATA: Simple Response");
     } else if (level.getCurrentLevel() == 2) {
-        cout << "Level 2: Intercepting more complex packets...\n";
+        std::cout << "Level 2: Intercepting more complex packets...\n";
         packets.push_back("SRC: 192.168.1.1 -> DEST: 10.0.0.1 | DATA: LOGIN Request | Protocol: HTTPS");
         packets.push_back("SRC: 10.0.0.1 -> DEST: 192.168.1.1 | DATA: ACK Response | Protocol: HTTPS");
         packets.push_back("SRC: 192.168.1.2 -> DEST: 10.0.0.1 | DATA: FILE Transfer | Protocol: FTP");
     } else if (level.getCurrentLevel() == 3) {
-        cout << "Level 3: Intercepting advanced packets with protocol analysis...\n";
+        std::cout << "Level 3: Intercepting advanced packets with protocol analysis...\n";
         packets.push_back("SRC: 192.168.1.100 -> DEST: 10.0.0.50 | DATA: AUTH Request | Protocol: TLS 1.3");
         packets.push_back("SRC: 10.0.0.50 -> DEST: 192.168.1.100 | DATA: AUTH Response | Protocol: TLS 1.3");
         packets.push_back("SRC: 192.168.2.1 -> DEST: 10.0.0.1 | DATA: DNS Query | Protocol: DNS");
@@ -247,60 +253,72 @@ void GameEngine::executeInterceptPacketsCommand(ifstream &inputFileStream, bool 
     networkingHacker.InterceptPackets(packets);
 }
 
-void GameEngine::executeSpoofRequestCommand(ifstream &inputFileStream, bool isReadingFromFile) {
-    string targetIP, message;
+/**
+ * @brief Executes the --spoof-request command by collecting target IP and message, and invoking the appropriate method.
+ *
+ * @param inputFileStream The input stream for reading data from file if necessary.
+ * @param isReadingFromFile Flag indicating whether commands are being read from a file.
+ */
+void GameEngine::executeSpoofRequestCommand(std::ifstream &inputFileStream, bool isReadingFromFile) {
+    std::string targetIP, message;
 
     if (isReadingFromFile) {
-        if (!getline(inputFileStream, targetIP) || !getline(inputFileStream, message)) {
-            cout << "Error reading from file." << endl;
+        if (!std::getline(inputFileStream, targetIP) || !std::getline(inputFileStream, message)) {
+            std::cout << "Error reading from file." << std::endl;
             return;
         }
     } else {
-        cout << "Enter target IP: ";
-        getline(cin, targetIP);
-        cout << "Enter message to spoof: ";
-        getline(cin, message);
+        std::cout << "Enter target IP: ";
+        std::getline(std::cin, targetIP);
+        std::cout << "Enter message to spoof: ";
+        std::getline(std::cin, message);
     }
 
     if (level.getCurrentLevel() == 1) {
-        cout << "Level 1: Spoofing simple request...\n";
+        std::cout << "Level 1: Spoofing simple request...\n";
     } else if (level.getCurrentLevel() == 2) {
-        cout << "Level 2: Spoofing advanced request...\n";
+        std::cout << "Level 2: Spoofing advanced request...\n";
     } else if (level.getCurrentLevel() == 3) {
-        cout << "Level 3: Spoofing very sophisticated request...\n";
+        std::cout << "Level 3: Spoofing very sophisticated request...\n";
     }
 
     networkingHacker.SpoofRequest(targetIP, message);
 }
 
-void GameEngine::executeCaptureTrafficCommand(ifstream &inputFileStream, bool isReadingFromFile) {
-    vector<string> trafficLogs;
+/**
+ * @brief Executes the --capture-traffic command by collecting traffic log data and invoking the appropriate method.
+ *
+ * @param inputFileStream The input stream for reading data from file if necessary.
+ * @param isReadingFromFile Flag indicating whether commands are being read from a file.
+ */
+void GameEngine::executeCaptureTrafficCommand(std::ifstream &inputFileStream, bool isReadingFromFile) {
+    std::vector<std::string> trafficLogs;
     if (isReadingFromFile) {
-        string line;
-        while (getline(inputFileStream, line)) {
+        std::string line;
+        while (std::getline(inputFileStream, line)) {
             trafficLogs.push_back(line);
         }
     } else {
-        cout << "Enter traffic logs (type 'done' to finish):\n";
-        string log;
+        std::cout << "Enter traffic logs (type 'done' to finish):\n";
+        std::string log;
         while (true) {
-            cout << "Log: ";
-            getline(cin, log);
+            std::cout << "Log: ";
+            std::getline(std::cin, log);
             if (log == "done") break;
             trafficLogs.push_back(log);
         }
     }
 
     if (level.getCurrentLevel() == 1) {
-        cout << "Level 1: Capturing simple traffic logs...\n";
+        std::cout << "Level 1: Capturing simple traffic logs...\n";
         trafficLogs.push_back("IP: 192.168.0.1 SENT: 100 bytes");
         trafficLogs.push_back("IP: 192.168.1.3 SENT: 200 bytes");
     } else if (level.getCurrentLevel() == 2) {
-        cout << "Level 2: Capturing more complex traffic logs...\n";
+        std::cout << "Level 2: Capturing more complex traffic logs...\n";
         trafficLogs.push_back("IP: 192.168.1.1 SENT: 500 bytes | Protocol: HTTP");
         trafficLogs.push_back("IP: 10.0.0.1 SENT: 1000 bytes | Protocol: HTTPS");
     } else if (level.getCurrentLevel() == 3) {
-        cout << "Level 3: Capturing advanced traffic with detailed analysis...\n";
+        std::cout << "Level 3: Capturing advanced traffic with detailed analysis...\n";
         trafficLogs.push_back("IP: 192.168.1.100 SENT: 2000 bytes | Protocol: TLS 1.3");
         trafficLogs.push_back("IP: 10.0.0.50 SENT: 1500 bytes | Protocol: FTP");
     }
@@ -308,7 +326,12 @@ void GameEngine::executeCaptureTrafficCommand(ifstream &inputFileStream, bool is
     networkingHacker.CaptureTraffic(trafficLogs);
 }
 
-void GameEngine::exec_commands(const string &input) {
+/**
+ * @brief Executes commands based on user input.
+ *
+ * @param input The command input by the user.
+ */
+void GameEngine::exec_commands(const std::string &input) {
     try {
         if (input == "ls")
             terminal.ls();
@@ -339,60 +362,74 @@ void GameEngine::exec_commands(const string &input) {
         else if (input == "--capture-traffic")
             executeCaptureTrafficCommand(inputFile, readingFromFile);
         else if (input == "--objective")
-            cout << level.getObjective();
+            std::cout << level.getObjective();
         else if(input == "--perform-hack")
             performHack();
         else if (input == "--exit")
             run = false;
         else {
-            run=false;
+            run = false;
             throw InvalidCommandException(input);
-
         }
     }
-
     catch (const InvalidCommandException& e) {
-        // Catch and handle InvalidCommandException
         std::cout << "Error: " << e.what() << std::endl;
         std::cout << "Please type --help to see the list of available commands." << std::endl;
     }
     catch (const std::exception& e) {
-        // Catch and handle any other exceptions
         std::cout << "An unexpected error occurred: " << e.what() << std::endl;
     }
 }
 
-
-
+/**
+ * @brief Displays the prompt with the player's name and current directory.
+ */
 void GameEngine::display_prompt() {
-    string playerName = interface.getPlayerName();
+    std::string playerName = interface.getPlayerName();
     terminal.displayPlayerName(playerName);
 }
 
+/**
+ * @brief Reads commands from a file and executes them.
+ */
 void GameEngine::readingCommandsFromFile() {
-    string commandLine;
-    while (getline(inputFile, commandLine)) {
+    std::string commandLine;
+    while (std::getline(inputFile, commandLine)) {
         display_prompt();
-        cout << "Executing from file: " << commandLine << endl;
+        std::cout << "Executing from file: " << commandLine << std::endl;
         exec_commands(commandLine);
     }
     readingFromFile = false;
     inputFile.close();
 }
 
+/**
+ * @brief Starts the game engine and runs it in a loop until the `run` flag is set to false.
+ *
+ * The method displays the prompt, reads the command from the input (either from file or from console),
+ * and executes the appropriate command.
+ */
 void GameEngine::start() {
     while (run) {
         display_prompt();
         if (readingFromFile)
             readingCommandsFromFile();
         else {
-            string input;
-            cin >> input;
+            std::string input;
+            std::cin >> input;
             exec_commands(input);
         }
     }
 }
 
+/**
+ * @brief Copy constructor for creating a new `GameEngine` from another instance.
+ *
+ * This constructor performs a deep copy of the attributes of another `GameEngine` object.
+ * It also attempts to open the input file if the `readingFromFile` flag is true.
+ *
+ * @param other The `GameEngine` instance to copy.
+ */
 GameEngine::GameEngine(const GameEngine &other)
     : root(other.root),
       cryptoHacker(other.cryptoHacker),
@@ -403,11 +440,12 @@ GameEngine::GameEngine(const GameEngine &other)
     if (readingFromFile && other.inputFile.is_open()) {
         inputFile.open("tastatura.txt");
         if (!inputFile) {
-            cerr << "Unable to open file tastatura.txt" << endl;
+            std::cerr << "Unable to open file tastatura.txt" << std::endl;
             readingFromFile = false;
         }
     }
 }
+
 
 void GameEngine::duplicateHacker() {
     Hacker* clonedHacker = root.clone();

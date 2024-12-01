@@ -6,38 +6,62 @@
 #include "ForensicHacker.h"
 #include "EVERYTHING.h"
 
+/**
+ * @brief Manager class for handling Hacker objects.
+ */
 class HackerManager {
 private:
-    shared_ptr<Hacker> hackerPtr;  // Smart pointer către clasa de bază Hacker
+    std::shared_ptr<Hacker> hackerPtr;  /**< Smart pointer to the base class Hacker */
 
 public:
-    // Constructori
-    HackerManager(shared_ptr<Hacker> hacker) : hackerPtr(hacker) {}
+    /**
+     * @brief Constructor that initializes HackerManager with a Hacker object.
+     *
+     * @param hacker A shared pointer to a Hacker object.
+     */
+    HackerManager(std::shared_ptr<Hacker> hacker) : hackerPtr(hacker) {}
+
+    /**
+     * @brief Copy constructor for HackerManager.
+     *
+     * @param other Another HackerManager object to copy from.
+     */
     HackerManager(const HackerManager& other) : hackerPtr(other.hackerPtr) {}
 
-    // Operator de atribuire folosind copy-and-swap
+    /**
+     * @brief Copy-and-swap assignment operator for HackerManager.
+     *
+     * @param other Another HackerManager object to assign from.
+     * @return HackerManager& Reference to the current HackerManager object.
+     */
     HackerManager& operator=(HackerManager other) {
         swap(hackerPtr, other.hackerPtr);
         return *this;
     }
 
-    // Funcție pentru a apela metoda virtuală hack
+    /**
+     * @brief Calls the hack method of the Hacker object.
+     */
     void performHack() const {
-        hackerPtr->hack();  // Apelul se face prin pointerul de bază
+        hackerPtr->hack();  /**< Call the hack method via the base pointer */
     }
 
-    // Funcție pentru a apela funcția non-virtuală showInfo
+    /**
+     * @brief Calls the showInfo method of the Hacker object.
+     */
     void showInfo() const {
-        hackerPtr->showInfo();  // Apelul se face prin pointerul de bază
+        hackerPtr->showInfo();  /**< Call the showInfo method via the base pointer */
     }
 
-    // Funcție pentru downcast folosind dynamic_cast
+    /**
+     * @brief Example of dynamic casting a shared pointer to CryptoHacker.
+     */
     void dynamicCastExample() {
-        auto cryptoHacker = dynamic_pointer_cast<CryptoHacker>(hackerPtr);
+        auto cryptoHacker = std::dynamic_pointer_cast<CryptoHacker>(hackerPtr);
         if (cryptoHacker) {
-            cout << "Successfully casted to CryptoHacker!" << endl;
+            std::cout << "Successfully casted to CryptoHacker!" << std::endl;
         } else {
-            cout << "Failed to cast to CryptoHacker." << endl;
+            std::cout << "Failed to cast to CryptoHacker." << std::endl;
         }
     }
 };

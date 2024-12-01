@@ -1,10 +1,18 @@
 #include <EVERYTHING.h>
 #include "Level.h"
-using namespace std;
 
-Level:: Level(int currentLevel) {
+/**
+ * @brief Constructor for the Level class.
+ *
+ * Initializes a Level object with a specific level number, objective,
+ * target, and associated files. Also, sets the ports for the level and
+ * prints out initial mission details.
+ *
+ * @param currentLevel The level number to initialize the object with.
+ */
+Level::Level(int currentLevel) {
     this->currentlevel = currentLevel;
-    cout << "LEVEL " << currentLevel;
+    std::cout << "LEVEL " << currentLevel;
     catFiles.clear();
 
     if (currentLevel == 1) {
@@ -20,29 +28,46 @@ Level:: Level(int currentLevel) {
         this->target = "SHAd aku";
 
         // Atmospheric context for the player
-        cout << "------------------------------------------------------------\n";
-        cout << "Level 1: The mission begins...\n";
-        cout << "Location: TEL AVIV 32.0929° N, 34.8072° E\n";
-        cout << "Time: 14:56\n";
-        cout << "------------------------------------------------------------\n";
-        cout << "Your objective is to decrypt the message. Once decrypted, you'll need to hash it in some way. Your first step is clear...\n";
-        cout << "------------------------------------------------------------\n";
-        cout << "TARGET: " << target << "...\n";
-        cout << "------------------------------------------------------------\n";
+        std::cout << "------------------------------------------------------------\n";
+        std::cout << "Level 1: The mission begins...\n";
+        std::cout << "Location: TEL AVIV 32.0929° N, 34.8072° E\n";
+        std::cout << "Time: 14:56\n";
+        std::cout << "------------------------------------------------------------\n";
+        std::cout << "Your objective is to decrypt the message. Once decrypted, you'll need to hash it in some way. Your first step is clear...\n";
+        std::cout << "------------------------------------------------------------\n";
+        std::cout << "TARGET: " << target << "...\n";
+        std::cout << "------------------------------------------------------------\n";
     }
     if (currentLevel == 2) {
         objective = "TEST";
         catFiles["file2.txt"] = {"Salut"};
         catFiles["file3.txt"] = {"Hello, contact us at support@example.com.\n Visit https://shorturl.at/UtRvu for more details.Server IP is 192.168.0.1."};
         this->target = "SHAd aku";
-        cout << ": TEL AVIV  32.0929 N 34.8072 E..." << "TARGET: " << target << "...TIME 14:56...\n";
+        std::cout << ": TEL AVIV  32.0929 N 34.8072 E..." << "TARGET: " << target << "...TIME 14:56...\n";
     }
 }
 
-void Level::setPortsForLevel(int level, const vector<PortStatus>& ports) {
+/**
+ * @brief Sets the ports for a specific level.
+ *
+ * This method allows the configuration of network ports for a given level.
+ *
+ * @param level The level number for which ports are being set.
+ * @param ports A vector of PortStatus objects representing the port configurations.
+ */
+void Level::setPortsForLevel(int level, const std::vector<PortStatus>& ports) {
     levelPorts[level] = ports;
 }
 
+/**
+ * @brief Retrieves the ports for a specific level.
+ *
+ * This method returns the ports associated with a particular level.
+ * If the level does not exist, it returns an empty vector.
+ *
+ * @param level The level number whose ports are to be retrieved.
+ * @return A vector of PortStatus objects representing the ports for the level.
+ */
 std::vector<PortStatus> Level::getPortsForLevel(int level) const {
     auto it = levelPorts.find(level);
     if (it != levelPorts.end()) {
@@ -51,6 +76,13 @@ std::vector<PortStatus> Level::getPortsForLevel(int level) const {
     return {};
 }
 
+/**
+ * @brief Copy constructor for the Level class.
+ *
+ * Creates a new Level object as a copy of an existing Level object.
+ *
+ * @param level The Level object to copy.
+ */
 Level::Level(const Level &level) : Terminal(level) {
     this->currentlevel = level.currentlevel;
     this->objective = level.objective;
@@ -58,8 +90,16 @@ Level::Level(const Level &level) : Terminal(level) {
     this->catFiles = level.catFiles;
 }
 
+/**
+ * @brief Assignment operator for the Level class.
+ *
+ * Allows one Level object to be assigned the values of another.
+ *
+ * @param level The Level object to assign from.
+ * @return A reference to the assigned Level object.
+ */
 Level & Level::operator=(const Level &level) {
-    if(this != &level) {
+    if (this != &level) {
         currentlevel = level.currentlevel;
         objective = level.objective;
         target = level.target;
@@ -68,36 +108,81 @@ Level & Level::operator=(const Level &level) {
     return *this;
 }
 
-string Level::getObjective() const {return objective;}
-map<string, vector<string>> Level:: getCatFiles() {return catFiles;}
-int Level:: getCurrentLevel() const {return this->currentlevel;}
+/**
+ * @brief Retrieves the objective for the current level.
+ *
+ * This method returns the mission objective for the current level.
+ *
+ * @return A string containing the objective.
+ */
+std::string Level::getObjective() const {
+    return objective;
+}
 
-bool Level::getPassword(int currLevel)  {
-    ///VERIFICAM DACA LA FIECARE UTILIZATOR JUCATORUL IDENTIFICA CORECT PAROLA DE LA DIRECTORUL SECRET
+/**
+ * @brief Retrieves the files associated with the current level.
+ *
+ * This method returns the map of files associated with the current level.
+ *
+ * @return A map of file names to their contents for the current level.
+ */
+std::map<std::string, std::vector<std::string>> Level::getCatFiles() {
+    return catFiles;
+}
+
+/**
+ * @brief Retrieves the current level number.
+ *
+ * This method returns the number of the current level.
+ *
+ * @return An integer representing the current level.
+ */
+int Level::getCurrentLevel() const {
+    return this->currentlevel;
+}
+
+/**
+ * @brief Verifies if the player has entered the correct password for the current level.
+ *
+ * At Level 1, the player is asked to enter the password. If the password is correct,
+ * the level advances to the next one.
+ *
+ * @param currLevel The current level of the player.
+ * @return True if the password is correct, false otherwise.
+ */
+bool Level::getPassword(int currLevel) {
     if (currLevel == 1) {
-        const string verif = "0ea1c6dd1697dc4e8035da6149a2d680e847a57ff69ee7e73662b507c1a58698";
-        cout<<"Please enter the password: ";
-        string pass;cin>>pass;
-        if(pass == verif) {
-            cout<<"You got it\n";
-            currLevel+=1;
-            cout << "Level 2 unlocked! New objective coming soon...\n";
+        const std::string verif = "0ea1c6dd1697dc4e8035da6149a2d680e847a57ff69ee7e73662b507c1a58698";
+        std::cout << "Please enter the password: ";
+        std::string pass;
+        std::cin >> pass;
+        if (pass == verif) {
+            std::cout << "You got it\n";
+            currLevel += 1;
+            std::cout << "Level 2 unlocked! New objective coming soon...\n";
             return true;
-        }
-        else {
-            cout<<"ACCESS DENIED\n";
+        } else {
+            std::cout << "ACCESS DENIED\n";
             return false;
         }
     }
-    if(currLevel==2) {
-        cout<<"Please enter the password: ";
+    if (currLevel == 2) {
+        std::cout << "Please enter the password: ";
     }
     return false;
 }
 
-ostream &operator<<(ostream &os, const Level &level) {
-    os<<"Current level is: "<<level.currentlevel;
-    os<<"Target is: "<<level.target;
+/**
+ * @brief Overloads the stream insertion operator to print the level information.
+ *
+ * This operator allows a Level object to be printed in a human-readable format.
+ *
+ * @param os The output stream to write to.
+ * @param level The Level object to print.
+ * @return The output stream with the level information inserted.
+ */
+std::ostream &operator<<(std::ostream &os, const Level &level) {
+    os << "Current level is: " << level.currentlevel;
+    os << "Target is: " << level.target;
     return os;
 }
-
