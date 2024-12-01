@@ -8,7 +8,7 @@
 Terminal::Terminal() {
     fileSystem["/"] = {"home", "etc", "SECRET"};
     fileSystem["/home"] = {"user1", "user2"};
-    fileSystem["/home/user1"] = {"caesar.txt", "file2.txt", "file3.txt", "projects"};
+    fileSystem["/home/user1"] = {"caesar.txt", "file2.txt", "file3.txt","file4.txt","file5.txt","file6.txt","file7.txt", "projects"};
     fileSystem["/etc"] = {"passwd", "hosts"};
     fileSystem["/SECRET"] = {"CIA"};
 

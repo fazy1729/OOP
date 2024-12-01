@@ -39,11 +39,40 @@ Level::Level(int currentLevel) {
         std::cout << "------------------------------------------------------------\n";
     }
     if (currentLevel == 2) {
-        objective = "TEST";
-        catFiles["file2.txt"] = {"Salut"};
+        objective =
+    "------------------------------------------------------------\n"
+    "LEVEL 2: The Trail Has Gone Cold\n"
+    "------------------------------------------------------------\n"
+    "\n"
+    "The trail has gone cold. You've decrypted the first message, but now the situation has escalated. "
+    "A file points to a new IP address, and time is running out.\n"
+    "\n"
+    "Your task is to discover the hidden clues behind the firewall. "
+    "See the open ports, hinting that a secure site may hold the key.\n"
+    "\n"
+    "You must analyze the available files, extract the IP address, and visit the site to gather vital intelligence.\n"
+    "\n"
+    "But beware, not everything is as it seems—someone may be watching your every move.\n"
+    "\n"
+    "Find the password and you might uncover the next step in your mission...\n"
+    "\n"
+    "PS: ONE OF THE BEST UNIVERSITIES? (+RANKING)??\n"
+    "\n"
+    "------------------------------------------------------------\n";
+        levelPorts[currentLevel] = {
+            {80, true},
+            {22, false},
+            {443, true},
+            {8080, false}
+        };
+        catFiles["file2.txt"] = {"Nothing"};
         catFiles["file3.txt"] = {"Hello, contact us at support@example.com.\n Visit https://shorturl.at/UtRvu for more details.Server IP is 192.168.0.1."};
-        this->target = "SHAd aku";
-        std::cout << ": TEL AVIV  32.0929 N 34.8072 E..." << "TARGET: " << target << "...TIME 14:56...\n";
+        catFiles["file4.txt"] = {"Test4"};
+        catFiles["file5.txt"] = {"Test5"};
+        catFiles["file6.txt"] = {"Test6"};
+        catFiles["file7.txt"] = {"haawaiajdajwdakdaksdkasnSTANFORDPINESadhawdhajdkaskda"};
+        catFiles["file8.txt"] = {"Test8"};
+
     }
 }
 
@@ -157,9 +186,8 @@ bool Level::getPassword(int currLevel) {
         std::string pass;
         std::cin >> pass;
         if (pass == verif) {
-            std::cout << "You got it\n";
             currLevel += 1;
-            std::cout << "Level 2 unlocked! New objective coming soon...\n";
+            std::cout << "Level 2 unlocked\n";
             return true;
         } else {
             std::cout << "ACCESS DENIED\n";
@@ -167,9 +195,18 @@ bool Level::getPassword(int currLevel) {
         }
     }
     if (currLevel == 2) {
+        const std::string verif = "STANFORDPINES2";
         std::cout << "Please enter the password: ";
+        std::string pass;
+        std::cin >> pass;
+        if (pass == verif) {
+            currLevel += 1;
+            std::cout << "Level 3 unlocked! New objective coming soon...\n";
+            return true;
+        }
+        std::cout << "ACCESS DENIED\n";
+        return false;
     }
-    return false;
 }
 
 /**
