@@ -1,4 +1,5 @@
 #include "Hacker.h"
+#include <ForensicsHacker.h>
 
 /**
  * @brief Constructor that initializes the Hacker object with specialization and skills.
@@ -141,4 +142,14 @@ std::ostream &operator<<(std::ostream &os, const Hacker &hacker) {
     os << "Specialization: " << hacker.specialization << "\n";
     os << "Skills: " << hacker.skills << "\n";
     return os;
+}
+
+void analyzeHacker(Hacker* hacker) {
+    ForensicHacker* forensicHacker = dynamic_cast<ForensicHacker*>(hacker);
+    if (forensicHacker) {
+        std::cout << "This Hacker is of type ForensicHacker. Performing analysis..." << std::endl;
+        forensicHacker->ExtractMetadata("example.txt", { /* exemplu map */ });
+    } else {
+        std::cout << "This is a generic Hacker or an    other specialization." << std::endl;
+    }
 }

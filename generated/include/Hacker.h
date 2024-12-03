@@ -106,10 +106,12 @@ public:
      * @param number The command number for which to show help.
      */
     void help_commands(const int number) const;
-
+    void analyzeHacker(Hacker* hacker);
     /**
      * @brief Destructor for the Hacker class.
      */
+
+
     virtual ~Hacker() = default;
 };
 
