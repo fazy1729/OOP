@@ -376,7 +376,7 @@ void GameEngine::exec_commands(const std::string &input) {
         else if (input == "--exit")
             run = false;
         else {
-                ///run = false;
+            run = false;
             throw InvalidCommandException(input);
         }
         logger.log("Command executed successfully: " + input);
