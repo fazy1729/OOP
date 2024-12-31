@@ -7,14 +7,22 @@ runs:
     - name: Set Tag Name
       shell: bash
       if: startsWith(github.ref, 'refs/tags/')
-      # trim prefix from ref to get tag name
       run: echo "TAG_NAME=${GITHUB_REF#'refs/tags/'}" >> ${GITHUB_ENV}
+
+    - name: Set ZIP_NAME
+      run: echo "ZIP_NAME=your_archive_name" >> $GITHUB_ENV
+
+    - name: Check if ZIP_NAME folder exists
+      run: ls -la ${{ env.ZIP_NAME }}
 
     - name: Add tag to folder name
       shell: bash
       if: startsWith(github.ref, 'refs/tags/')
       run: |
         mv ${{ env.ZIP_NAME }} ${{ env.ZIP_NAME }}_${{ env.TAG_NAME }}
+
+    - name: Check directory before zipping
+      run: ls -la ${{ env.ZIP_NAME }}_${{ env.TAG_NAME }}
 
     - name: Archive Release
       uses: thedoctor0/zip-release@master
