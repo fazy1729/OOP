@@ -5,32 +5,27 @@ runs:
   using: "composite"
   steps:
     - name: Set Tag Name
-      shell: bash  # Added shell property
+      shell: bash
       if: startsWith(github.ref, 'refs/tags/')
       run: |
         echo "TAG_NAME=${GITHUB_REF#'refs/tags/'}" >> ${GITHUB_ENV}
 
     - name: Set ZIP Name
-      shell: bash  # Added shell property
+      shell: bash
       if: startsWith(github.ref, 'refs/tags/')
       run: |
         echo "ZIP_NAME=${{ env.ZIP_NAME }}_${{ env.TAG_NAME }}" >> ${GITHUB_ENV}
 
+    - name: Check if ZIP file exists
+      shell: bash
+      run: |
+        ls -la ${{ env.ZIP_NAME }}
+
     - name: Add tag to folder name
-      shell: bash  # Added shell property
+      shell: bash
       if: startsWith(github.ref, 'refs/tags/')
       run: |
-        mv ${{ env.ZIP_NAME }} ${{ env.ZIP_NAME }}_${{ env.TAG_NAME }}
-
-    - name: Check if ZIP file exists
-      shell: bash  # Added shell property
-      run: |
-        if [ ! -f "${{ env.ZIP_NAME }}_${{ env.TAG_NAME }}.zip" ]; then
-          echo "ZIP file not found!"
-          exit 1
-        else
-          echo "ZIP file exists!"
-        fi
+        mv "${{ env.ZIP_NAME }}" "${{ env.ZIP_NAME }}_${{ env.TAG_NAME }}"
 
     - name: Archive Release
       uses: thedoctor0/zip-release@master
@@ -50,4 +45,5 @@ runs:
       uses: softprops/action-gh-release@master
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        files: ${{ env.ZIP_NAME }}_${{ env.TAG_NAME }}.zip
+        files: |
+          ${{ env.ZIP_NAME }}_${{ env.TAG_NAME }}.zip
