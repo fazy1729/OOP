@@ -215,6 +215,10 @@ jobs:
 
       - name: Runtime checks
         uses: ./.github/actions/runtime-checks
+     
+      - name: Verifica dimensiunea fișierului ZIP
+        run: |
+          ls -lh ${{ env.ZIP_NAME }}_${{ env.TIMESTAMP }}.zip
 
       - name: Create release
         uses: ./.github/actions/create-release
