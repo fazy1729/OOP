@@ -10,6 +10,7 @@ GameEngine::GameEngine(const std::string& fileName) :
     level(1),
     readingFromFile(true),
     run(true)
+
 {
     std::ifstream tempInputFile;
     tempInputFile.open("tastatura.txt");
@@ -60,20 +61,27 @@ void GameEngine::executeCaesarCommand(std::ifstream &inputFileStream, bool isRea
         std::cout << "You entered: " << file << "\n";
         std::getline(inputFileStream, file);
     }
+
     std::size_t pos = file.find(' ');
-    if(pos != std::string::npos) {
-        file = file.substr(pos+1);
+    if (pos != std::string::npos) {
+        file = file.substr(pos + 1);
         std::map<std::string, std::vector<std::string>> catFiles = level.getCatFiles();
         auto it = catFiles.find(file);
-        if(it != catFiles.end())
-            for(auto &text : it->second)
+        if (it != catFiles.end()) {
+            for (auto &text : it->second) {
                 cryptoHacker.CaesarDecypher(text);
-        else
+            }
+            logger.log("Executed Caesar cipher on file: " + file);  // Logare succes
+        } else {
+            logger.log("File not found: " + file);  // Logare eroare
             std::cout << "File not found" << std::endl;
-    }
-    else
+        }
+    } else {
+        logger.log("Invalid command format for Caesar cipher");  // Logare eroare
         std::cout << "The correct format is: --caesar <file.txt>\n";
+    }
 }
+
 
 void GameEngine::executeSHA256Command(std::ifstream &inputFileStream, bool isReadingFromFile) {
     std::string fileName;
@@ -368,9 +376,10 @@ void GameEngine::exec_commands(const std::string &input) {
         else if (input == "--exit")
             run = false;
         else {
-            run = false;
+                ///run = false;
             throw InvalidCommandException(input);
         }
+        logger.log("Command executed successfully: " + input);
     }
     catch (const InvalidCommandException& e) {
         std::cout << "Error: " << e.what() << std::endl;

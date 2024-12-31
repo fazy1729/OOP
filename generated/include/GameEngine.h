@@ -7,6 +7,7 @@
 #include "Interface.h"
 #include "Level.h"
 #include "NetworkingHacker.h"
+#include "Logger.h"
 
 // GameEngine class: Manages the game flow and interaction between different hacker types.
 class GameEngine {
@@ -18,6 +19,8 @@ private:
     Interface interface; ///< Instance of Interface for user interaction.
     Level level; ///< Instance of Level to manage game progression.
     Terminal terminal; ///< Instance of Terminal for command processing.
+    Logger logger;  // Instanță de Logger
+
 
     std::ifstream inputFile; ///< Input file stream for reading commands from a file.
     bool readingFromFile; ///< Flag to determine whether commands are being read from a file.
