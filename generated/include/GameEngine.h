@@ -8,6 +8,7 @@
 #include "Level.h"
 #include "NetworkingHacker.h"
 #include "Logger.h"
+#include "HackTools.h"
 
 // GameEngine class: Manages the game flow and interaction between different hacker types.
 class GameEngine {
@@ -68,6 +69,8 @@ public:
      * @param readingFromFile Flag indicating whether input is being read from a file.
      */
     void executeSHA256Command(std::ifstream &file, bool readingFromFile);
+    void useHackTool();
+
 
     /**
      * @brief Executes the command to extract metadata from a file.

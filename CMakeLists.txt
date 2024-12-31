@@ -73,6 +73,7 @@ add_executable(${PROJECT_NAME}
         generated/include/HackerManager.h
         generated/include/HackerFactory.h
         generated/include/Logger.h
+        generated/include/HackTools.h
 )
 
 target_link_libraries(${PROJECT_NAME} OpenSSL::SSL OpenSSL::Crypto)

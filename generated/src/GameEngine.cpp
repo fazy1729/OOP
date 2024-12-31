@@ -23,7 +23,24 @@ GameEngine::GameEngine(const std::string& fileName) :
 
 }
 
+// Implementarea funcției useHackTool
+void GameEngine::useHackTool() {
+    // Crearea uneltelor de hacking
+    HackTool<int> bruteForceTool("BruteForce", 100);  // Nivelul de putere 100
+    HackTool<int> ddosTool("DDoS Attack", 300);      // Nivelul de putere 300
+    HackTool<double> encryptionTool("Encryption", 150.5);  // Nivelul de putere 150.5
+    HackTool<double> firewallBypass("Firewall Bypass", 200.75); // Nivelul de putere 200.75
 
+    // Afișăm informațiile despre unelte
+    bruteForceTool.displayInfo();
+    ddosTool.displayInfo();
+    encryptionTool.displayInfo();
+    firewallBypass.displayInfo();
+
+    // Comparăm uneltele
+    compareHackTools(bruteForceTool, ddosTool);
+    compareHackTools(encryptionTool, firewallBypass);
+}
 
 void GameEngine::executeCdCommand() {
     std::string dir;
@@ -373,6 +390,8 @@ void GameEngine::exec_commands(const std::string &input) {
             std::cout << level.getObjective();
         else if(input == "--perform-hack")
             performHack();
+        else if (input == "--use-hack-tools")
+            useHackTool();
         else if (input == "--exit")
             run = false;
         else {
