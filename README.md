@@ -1,7 +1,7 @@
 # Titlu proiect
 Intrusion
 ## Descriere proiect
-This is a game where I have implemented functionalities of a Linux Terminal such as : ls, cd, pwd etc... You have to solve different cryptographic puzzles, which involves real alghoritms implemented by me such as SHA256.
+This is a game where I have implemented functionalities of a Linux Terminal such as : ls, cd, pwd etc... You have to solve different cryptographic puzzles, which involves real alghoritms implemented by me such as SHA256. There are 3 Hacker which have different abilities, based on the task that you need to complete. Everything was done in C++ using Oriented Object Programming
 
 ## Milestone #0
 
