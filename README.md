@@ -1,7 +1,7 @@
 # Titlu proiect
 Intrusion
 ## Descriere proiect
-Solving cryptographic puzzles
+This is a game where I have implemented functionalities of a Linux Terminal such as : ls, cd, pwd etc... You have to solve different cryptographic puzzles, which involves real alghoritms implemented by me such as SHA256.
 
 ## Milestone #0
 
